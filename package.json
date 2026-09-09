@@ -13,7 +13,7 @@
     "test": "npm run test:logic && npm run test:live",
     "test:logic": "tsx tests/rotation.mts && tsx tests/equation.mts && tsx tests/data.mts && tsx tests/registry.mts && tsx tests/migration.mts",
     "test:e2e": "tsx tests/e2e.mts",
-    "test:live": "tsx tests/e2e.mts && tsx tests/all-games.mts && tsx tests/top10-reveal.mts && tsx tests/db.mts",
+    "test:live": "tsx tests/e2e.mts && tsx tests/all-games.mts && tsx tests/top10-reveal.mts && tsx tests/ncc.mts && tsx tests/db.mts",
     "test:games": "tsx tests/all-games.mts"
   },
   "dependencies": {

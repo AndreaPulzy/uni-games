@@ -141,8 +141,12 @@ export class NomiCoseCittaGame extends MiniGame {
       });
 
       raw[p.id] = scoreNomiCoseCitta({ cells: cellScores, pressedStop: this.stopperId === p.id });
-      detail[p.id] = `${unique} unich${unique === 1 ? 'a' : 'e'} · ${dup} duplicate · ${zero} nulle`
-        + (this.stopperId === p.id ? ' · STOP' : '');
+      const conta = (n: number, sing: string, plur: string) => `${n} ${n === 1 ? sing : plur}`;
+      detail[p.id] = [
+        conta(unique, 'unica', 'uniche'),
+        conta(dup, 'duplicata', 'duplicate'),
+        conta(zero, 'nulla', 'nulle'),
+      ].join(' · ') + (this.stopperId === p.id ? ' · STOP' : '');
     }
 
     const stopper = this.stopperId ? this.ctx.player(this.stopperId)?.name : null;
