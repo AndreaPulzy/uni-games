@@ -1,4 +1,4 @@
-# Blueprint per Render. Da usare con "New > Blueprint" puntando al repository.
+# Blueprint per Render: "New > Blueprint" puntando a questo repository.
 services:
   - type: web
     name: uni-games
@@ -6,13 +6,13 @@ services:
     plan: free
     healthCheckPath: /api/health
     envVars:
-      # Indirizzo pubblico del servizio: finisce nel QR code mostrato in TV.
-      # Va compilato dopo il primo deploy, quando Render assegna il dominio.
+      # Opzionale. Su Render non serve: il QR usa gia' il dominio della pagina.
+      # Va compilato solo dietro un dominio personalizzato o un proxy che
+      # cambia l'host visto dal browser.
       - key: PUBLIC_URL
         sync: false
     # Il piano free non supporta i dischi: l'archivio partite riparte da zero
-    # a ogni deploy. Passando a un piano a pagamento, scommentare qui sotto
-    # per conservarlo.
+    # a ogni deploy. Su un piano a pagamento, scommentare per conservarlo.
     # disk:
     #   name: uni-games-data
     #   mountPath: /app/server/data

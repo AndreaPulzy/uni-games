@@ -115,8 +115,14 @@ non possono farlo.
 Il `Dockerfile` costruisce l'immagine completa — un solo processo serve pagina,
 API e WebSocket. Sono pronti `render.yaml` (Render) e `fly.toml` (Fly.io).
 
-Dopo il primo deploy, impostare la variabile `PUBLIC_URL` con il dominio
-assegnato: è l'indirizzo che finisce nel QR code mostrato in TV.
+Il QR code usa da solo il dominio della pagina, quindi online non serve
+configurare nulla. La variabile `PUBLIC_URL` va impostata solo dietro un dominio
+personalizzato o un proxy che cambia l'host visto dal browser.
+
+Sul piano gratuito di Render il servizio si addormenta dopo 15 minuti di
+inattività: la prima apertura richiede una cinquantina di secondi, poi resta
+sveglio finché ci sono giocatori collegati. Conviene aprire la TV un minuto
+prima di iniziare.
 
 Per conservare l'archivio partite tra un deploy e l'altro serve un volume
 montato su `/app/server/data`.
