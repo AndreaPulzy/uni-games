@@ -1,0 +1,19 @@
+# Blueprint per Render. Da usare con "New > Blueprint" puntando al repository.
+services:
+  - type: web
+    name: uni-games
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      # Indirizzo pubblico del servizio: finisce nel QR code mostrato in TV.
+      # Va compilato dopo il primo deploy, quando Render assegna il dominio.
+      - key: PUBLIC_URL
+        sync: false
+    # Il piano free non supporta i dischi: l'archivio partite riparte da zero
+    # a ogni deploy. Passando a un piano a pagamento, scommentare qui sotto
+    # per conservarlo.
+    # disk:
+    #   name: uni-games-data
+    #   mountPath: /app/server/data
+    #   sizeGB: 1

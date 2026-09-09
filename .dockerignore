@@ -1,0 +1,7 @@
+node_modules
+server/public
+server/data
+.git
+.DS_Store
+*.log
+.claude

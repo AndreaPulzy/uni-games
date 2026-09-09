@@ -1,0 +1,54 @@
+/** Parole segrete del Wordle: elenco curato di parole comuni, cosi il segreto
+ *  e' sempre qualcosa di indovinabile.
+ *
+ *  I tentativi invece sono validati sul dizionario italiano completo
+ *  (vedi ./dictionary.ts): qualunque parola italiana di 5 lettere e' accettata. */
+
+export const SOLUTIONS: string[] = [
+  'AEREO','AGILE','AGIRE','ALBUM','ALCOL','ALTRO','AMARE','AMICA','AMICO','AMORE',
+  'ANIMA','ANTRO','ARENA','ARIDO','ASILO','ASPRO','ASSAI','ATOMO','AVARO','AVERE',
+  'BAGNO','BALLO','BANCA','BARCA','BASTA','BELVA','BENDA','BIMBO','BIRRA','BOCCA',
+  'BORSA','BOSCO','BRACE','BRAVO','BUFFO','BURRO','BUSTA',
+  'CALDO','CALMA','CAMPO','CANTO','CAPRA','CARNE','CARTA','CASSA','CAUSA','CERCA',
+  'CESTO','CIELO','CIRCO','CITTA','COLLE','COLPO','CONTO','CORPO','CORSA','COSTA',
+  'CREMA','CROCE','CUORE','CURVA',
+  'DANNO','DARDO','DENTE','DIECI','DISCO','DITTA','DOLCE','DONNA','DOTTO','DRAGO',
+  'DUOMO','EBANO','ELICA','EPOCA','ESAME','ESITO','ETICA',
+  'FALCO','FANGO','FARSA','FATTO','FERRO','FESTA','FIABA','FIATO','FIELE','FINTA',
+  'FIORE','FIRMA','FIUME','FOLLE','FONDO','FORCA','FORMA','FORNO','FORTE','FOSSA',
+  'FRENO','FRODE','FUOCO','FURBO',
+  'GALLO','GAMBA','GARZA','GATTO','GELSO','GENIO','GENTE','GESSO','GESTO','GHIRO',
+  'GIOCO','GIOIA','GLOBO','GNOMO','GOMMA','GONNA','GRADO','GRANO','GRECO','GRIDO',
+  'GUIDA','GUSTO','ISOLA',
+  'LADRO','LAMPO','LARGO','LATTE','LEGNO','LENTE','LEONE','LETTO','LIBRO','LINEA',
+  'LISTA','LOTTA','LUNGO','LUOGO',
+  'MADRE','MAGIA','MAGRO','MALTO','MANIA','MANTO','MARCA','MARZO','MASSA','MELMA',
+  'MENSA','MENTE','MERLO','MESSA','METRO','MIELE','MILLE','MIRTO','MOLLA','MONDO',
+  'MONTE','MORSO','MOSCA','MOSSA','MOTTO','MUSEO',
+  'NERVO','NONNA','NONNO','NORMA','NOTTE','NUOTO','OBLIO','ODORE','OLIVA','OMBRA',
+  'ONORE','OPERA',
+  'PADRE','PALCO','PALLA','PANCA','PANNO','PARCO','PASTA','PATTO','PAURA','PELLE',
+  'PENNA','PERLA','PESCA','PESCE','PESTE','PEZZO','PIANO','PIEDE','PISTA','PIZZA',
+  'POLLO','POMPA','PONTE','PORTA','POSTA','POSTO','POZZO','PRATO','PREDA','PRESA',
+  'PRIMO','PROVA','PUNTO','QUOTA',
+  'RADIO','RAZZO','REGNO','RESTO','RETTA','RITMO','ROMBO','ROSSO','ROTTA','RUOTA',
+  'SACCO','SALSA','SALTO','SANTO','SASSO','SCALA','SCENA','SCOPO','SCUDO','SEDIA',
+  'SEGNO','SELVA','SENSO','SERPE','SERRA','SETTE','SFERA','SFIDA','SIEPE','SOGNO',
+  'SOLDI','SOLCO','SOMMA','SONNO','SORTE','SPADA','SPESA','SPIGA','SPINA','SPORT',
+  'SPUMA','STIMA','SUONO',
+  'TACCO','TALPA','TAPPO','TARGA','TASCA','TASTO','TEMPO','TENDA','TERRA','TESTA',
+  'TETTO','TIGRE','TONNO','TORRE','TORTA','TRAMA','TRENO','TUONO','TURNO','TUTTO',
+  'ULIVO','UMORE',
+  'VALLE','VASCA','VENTO','VERDE','VERME','VERSO','VESTE','VETRO','VIALE','VIDEO',
+  'VIGNA','VILLA','VIOLA','VOLPE','VOLTO',
+  'ZAINO','ZEBRA','ZUCCA','ZUPPA',
+];
+
+
+const norm = (w: string) => w.trim().toUpperCase();
+
+export const SOLUTION_LIST = SOLUTIONS.map(norm).filter((w) => /^[A-Z]{5}$/.test(w));
+
+export function randomSolution(rng: () => number = Math.random): string {
+  return SOLUTION_LIST[Math.floor(rng() * SOLUTION_LIST.length)];
+}

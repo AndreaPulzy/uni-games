@@ -1,0 +1,44 @@
+{
+  "name": "uni-games",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,client -c magenta,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "PORT=3000 tsx watch server/src/index.ts",
+    "dev:client": "vite --config client/vite.config.ts",
+    "build": "vite build --config client/vite.config.ts",
+    "start": "NODE_ENV=production tsx server/src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:logic && npm run test:live",
+    "test:logic": "tsx tests/rotation.mts && tsx tests/equation.mts && tsx tests/data.mts && tsx tests/registry.mts && tsx tests/migration.mts",
+    "test:e2e": "tsx tests/e2e.mts",
+    "test:live": "tsx tests/e2e.mts && tsx tests/all-games.mts && tsx tests/top10-reveal.mts && tsx tests/db.mts",
+    "test:games": "tsx tests/all-games.mts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "@fastify/static": "^8.0.3",
+    "fastify": "^5.2.0",
+    "nanoid": "^5.0.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "framer-motion": "^11.15.0",
+    "qrcode": "^1.5.4",
+    "better-sqlite3": "^11.7.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}
