@@ -270,13 +270,25 @@ export class GhostGame extends MiniGame {
       detail[p.id] = n === 0 ? 'Nessuna lettera presa' : `${GHOST.slice(0, n)} (${n} manche perse)`;
     }
     const survivors = this.alive.map((id) => this.nameOf(id));
+    // col tetto di manche capita spesso che nessuno venga eliminato:
+    // allora il titolo va a chi ha preso meno lettere
+    const counts = this.ctx.players.map((p) => ({ name: p.name, n: this.letters.get(p.id) ?? 0 }));
+    const fewest = counts.length ? Math.min(...counts.map((c) => c.n)) : 0;
+    const leaders = counts.filter((c) => c.n === fewest).map((c) => c.name);
+    const score = fewest === 0 ? 'nessuna lettera' : GHOST.slice(0, fewest);
+
+    const headline = survivors.length === 1
+      ? `${survivors[0]} sopravvive a tutti`
+      : leaders.length === 1
+        ? `${leaders[0]} resiste meglio di tutti (${score})`
+        : leaders.length > 1
+          ? `In testa a pari merito: ${leaders.join(', ')} (${score})`
+          : 'Manche concluse';
+
     this.ctx.finish({
       raw,
       detail,
-      reveal: [
-        survivors.length === 1 ? `${survivors[0]} sopravvive` : 'Nessun sopravvissuto netto',
-        this.log.slice(-3).join(' · ') || 'Manche senza storia',
-      ],
+      reveal: [headline, this.log.slice(-3).join(' · ') || 'Manche senza storia'],
     });
   }
 

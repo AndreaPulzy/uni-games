@@ -58,7 +58,7 @@ async function playOne(gameId: string): Promise<void> {
   // i bot giocano finche il round non si chiude; l'host sblocca le fasi di discussione
   const t0 = Date.now();
   let idle = 0;
-  while (room?.phase === 'playing' && Date.now() - t0 < 70_000) {
+  while (room?.phase === 'playing' && Date.now() - t0 < 150_000) {
     let acted = false;
     for (const bot of bots) {
       const move = decide(gameId, bot, room);
