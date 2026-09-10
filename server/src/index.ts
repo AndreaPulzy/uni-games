@@ -29,7 +29,13 @@ app.get('/api/net', async () => ({
   port: PORT,
   publicUrl: process.env.PUBLIC_URL ?? null,
 }));
-app.get('/api/health', async () => ({ ok: true, rooms: rooms.size }));
+/** `commit` dice quale versione e' online dopo un deploy:
+ *  Render espone l'hash del commit nella variabile RENDER_GIT_COMMIT. */
+app.get('/api/health', async () => ({
+  ok: true,
+  rooms: rooms.size,
+  commit: process.env.RENDER_GIT_COMMIT?.slice(0, 7) ?? null,
+}));
 app.get('/api/albo', async () => ({ albo: hallOfFame(20), stats: stats(), persistente: isPersistent }));
 app.get('/api/partite', async () => ({ partite: recentMatches(15) }));
 app.get('/api/statistiche-giochi', async () => ({ giochi: bestByGame() }));
