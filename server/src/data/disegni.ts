@@ -49,4 +49,53 @@ export const PAROLE_DISEGNO: DrawWord[] = [
   w('Pallone', 'palla'), w('Canestro'), w('Racchetta'), w('Sci'), w('Aquilone'), w('Altalena'),
   w('Scivolo'), w('Dado'), w('Scacchi'), w('Chitarra'), w('Tamburo'), w('Microfono'),
   w('Cuffie'), w('Computer', 'pc'), w('Telescopio'), w('Calamita'), w('Batteria'),
+
+  // altra natura
+  w('Foglia'), w('Cometa'), w('Pianeta'), w('Tornado', "tromba d'aria"), w('Cascata'),
+  w('Fiocco di neve'), w('Goccia'), w('Palma'), w('Rosa'), w('Girasole'), w('Tulipano'),
+  w('Quadrifoglio'), w('Pigna'), w('Conchiglia'), w('Iceberg'),
+  // altri animali
+  w('Leone'), w('Scimmia'), w('Orso'), w('Topo'), w('Rana'), w('Gufo'), w('Pipistrello'),
+  w('Delfino'), w('Medusa'), w('Stella marina'), w('Coccodrillo'), w('Canguro'), w('Zebra'),
+  w('Cammello'), w('Pecora'), w('Anatra', 'papera'), w('Pavone'), w('Fenicottero'), w('Riccio'),
+  w('Coccinella'), w('Formica'), w('Zanzara'), w('Dinosauro'), w('Unicorno'),
+  w('Cavalluccio marino'), w('Scorpione'), w('Verme', 'lombrico'),
+  // altro cibo
+  w('Patatine fritte', 'patatine'), w('Hot dog'), w('Popcorn'), w('Ciambella', 'donut'),
+  w('Cornetto', 'brioche', 'croissant'), w('Lecca-lecca', 'leccalecca'), w('Caramella'),
+  w('Fragola'), w('Arancia'), w('Pomodoro'), w('Peperoncino'), w('Broccolo', 'broccoli'),
+  w('Sushi'), w('Pannocchia', 'mais'), w('Noce di cocco', 'cocco'), w('Muffin', 'cupcake'),
+  w('Avocado'), w('Bottiglia'), w('Tazza'),
+  // altri oggetti
+  w('Pennello'), w('Secchio'), w('Scopa'), w('Lucchetto'), w('Campana'), w('Sveglia'),
+  w('Busta', 'lettera'), w('Francobollo'), w('Calendario'), w('Bilancia'), w('Clessidra'),
+  w('Termometro'), w('Siringa'), w('Cerotto'), w('Spazzolino'), w('Pettine'), w('Rossetto'),
+  w('Borsa'), w('Portafoglio'), w('Frigorifero', 'frigo'), w('Lavatrice'), w('Padella'),
+  w('Pentola'), w('Ventilatore'), w('Chiodo'), w('Cacciavite'), w('Sega'), w('Rastrello'),
+  w('Annaffiatoio', 'innaffiatoio'), w('Bomba'), w('Megafono'), w('Macchina fotografica', 'fotocamera'),
+  w('Radio'), w('Joystick', 'controller'), w('Mouse'), w('Trofeo', 'coppa'), w('Medaglia'),
+  w('Bussola'), w('Mappa', 'cartina'), w('Forziere', 'tesoro'), w('Lanterna'), w('Torcia'),
+  w('Fiammifero'), w('Culla'), w('Biberon'), w('Ciuccio'), w('Orsacchiotto', 'peluche'),
+  w('Trottola'), w('Yo-yo', 'yoyo'), w('Birillo'), w('Monopattino'), w('Skateboard', 'skate'),
+  w('Fischietto'), w('Boomerang'), w('Arco', 'arco e freccia'),
+  // altri trasporti
+  w('Moto', 'motocicletta', 'motorino'), w('Camion'), w('Tram'), w('Taxi'), w('Ufo', 'disco volante'),
+  w('Canoa'), w('Funivia'), w('Carrello della spesa', 'carrello'),
+  // altri luoghi
+  w('Mulino a vento', 'mulino'), w('Capanna'), w('Pozzo'), w('Fontana'), w('Torre di Pisa'),
+  w('Statua della Libertà'), w('Big Ben'), w('Stadio'), w('Scuola'), w('Circo'),
+  w('Montagne russe'), w('Ruota panoramica'),
+  // altri personaggi
+  w('Principessa'), w('Cavaliere'), w('Ninja'), w('Cowboy'), w('Clown', 'pagliaccio'),
+  w('Babbo Natale'), w('Angelo'), w('Diavolo'), w('Zombie'), w('Mummia'), w('Fata'), w('Gnomo'),
+  w('Poliziotto', 'agente'), w('Dottore', 'medico'), w('Pittore'), w('Ballerina'),
+  w('Sub', 'sommozzatore'), w('Spaventapasseri'), w('Befana'), w('Cupido'),
+  // altro corpo
+  w('Capelli'), w('Baffi'), w('Lingua'), w('Cervello'), w('Impronta'), w('Muscolo', 'bicipite'),
+  w('Unghia'), w('Ombelico'),
+  // altri simboli e musica
+  w('Nota musicale', 'nota'), w('Chiave di violino'), w('Punto interrogativo'), w('Teschio'),
+  w('Faccina', 'smile', 'smiley'), w('Wi-Fi', 'wifi'), w('Puzzle'), w('Carte da gioco', 'carte'),
+  w('Tavola da surf', 'surf'), w('Violino'), w('Pianoforte', 'piano'), w('Tromba'), w('Arpa'),
+  w('Sassofono', 'sax'), w('Maracas'),
 ];

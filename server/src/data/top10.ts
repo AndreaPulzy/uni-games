@@ -255,6 +255,188 @@ export const TOP10: Top10List[] = [
       { nome: 'Parigi' }, { nome: 'Bucarest' }, { nome: 'Vienna' }, { nome: 'Amburgo' },
     ],
   },
+
+  /* ---------------------------- geografia (altre) ---------------------------- */
+  {
+    id: 'continenti-superficie',
+    titolo: 'I 7 continenti, dal più grande al più piccolo',
+    voci: [
+      { nome: 'Asia' }, { nome: 'Africa' },
+      { nome: 'America del Nord', alias: ['Nord America', 'Nordamerica', 'America settentrionale'] },
+      { nome: 'America del Sud', alias: ['Sud America', 'Sudamerica', 'America meridionale'] },
+      { nome: 'Antartide', alias: ['Antartico'] }, { nome: 'Europa' },
+      { nome: 'Oceania', alias: ['Australia'] },
+    ],
+  },
+  {
+    id: 'continenti-popolosi',
+    titolo: 'I continenti abitati, dal più popoloso',
+    voci: [
+      { nome: 'Asia' }, { nome: 'Africa' }, { nome: 'Europa' },
+      { nome: 'America del Nord', alias: ['Nord America', 'Nordamerica', 'America settentrionale'] },
+      { nome: 'America del Sud', alias: ['Sud America', 'Sudamerica', 'America meridionale'] },
+      { nome: 'Oceania', alias: ['Australia'] },
+    ],
+  },
+  {
+    id: 'confini-italia',
+    titolo: "Gli stati che confinano con l'Italia, dal confine più lungo",
+    voci: [
+      { nome: 'Svizzera' }, { nome: 'Francia' }, { nome: 'Austria' },
+      { nome: 'Slovenia' }, { nome: 'San Marino' },
+      { nome: 'Vaticano', alias: ['Città del Vaticano'] },
+    ],
+  },
+  {
+    id: 'regioni-piccole',
+    titolo: 'Le 8 regioni italiane più piccole, dalla più piccola',
+    voci: [
+      { nome: "Valle d'Aosta", alias: ["Val d'Aosta", 'Valle Aosta'] }, { nome: 'Molise' },
+      { nome: 'Liguria' }, { nome: 'Friuli-Venezia Giulia', alias: ['Friuli', 'Friuli Venezia Giulia'] },
+      { nome: 'Umbria' }, { nome: 'Marche' }, { nome: 'Basilicata' }, { nome: 'Abruzzo' },
+    ],
+  },
+  {
+    id: 'laghi-italia',
+    titolo: "I 5 laghi più grandi d'Italia",
+    voci: [
+      { nome: 'Garda', alias: ['Lago di Garda', 'Benaco'] },
+      { nome: 'Maggiore', alias: ['Lago Maggiore', 'Verbano'] },
+      { nome: 'Como', alias: ['Lago di Como', 'Lario'] },
+      { nome: 'Trasimeno', alias: ['Lago Trasimeno'] },
+      { nome: 'Bolsena', alias: ['Lago di Bolsena'] },
+    ],
+  },
+  {
+    id: 'isole-italiane',
+    titolo: 'Le 5 isole italiane più grandi',
+    voci: [
+      { nome: 'Sicilia' }, { nome: 'Sardegna' }, { nome: 'Elba', alias: ["Isola d'Elba"] },
+      { nome: "Sant'Antioco", alias: ['Santantioco', 'Sant Antioco'] }, { nome: 'Pantelleria' },
+    ],
+  },
+
+  /* ---------------------------- storia e cultura ---------------------------- */
+  {
+    id: 're-di-roma',
+    titolo: 'I sette re di Roma, in ordine',
+    voci: [
+      { nome: 'Romolo' }, { nome: 'Numa Pompilio', alias: ['Numa'] },
+      { nome: 'Tullo Ostilio', alias: ['Tullo'] }, { nome: 'Anco Marzio', alias: ['Anco'] },
+      { nome: 'Tarquinio Prisco', alias: ['Prisco'] }, { nome: 'Servio Tullio', alias: ['Servio'] },
+      { nome: 'Tarquinio il Superbo', alias: ['Tarquinio Superbo', 'Superbo'] },
+    ],
+  },
+  {
+    id: 'presidenti-repubblica',
+    titolo: 'I primi 10 presidenti della Repubblica Italiana, in ordine',
+    voci: [
+      { nome: 'Enrico De Nicola', alias: ['De Nicola'] }, { nome: 'Luigi Einaudi', alias: ['Einaudi'] },
+      { nome: 'Giovanni Gronchi', alias: ['Gronchi'] }, { nome: 'Antonio Segni', alias: ['Segni'] },
+      { nome: 'Giuseppe Saragat', alias: ['Saragat'] }, { nome: 'Giovanni Leone', alias: ['Leone'] },
+      { nome: 'Sandro Pertini', alias: ['Pertini'] }, { nome: 'Francesco Cossiga', alias: ['Cossiga'] },
+      { nome: 'Oscar Luigi Scalfaro', alias: ['Scalfaro'] },
+      { nome: 'Carlo Azeglio Ciampi', alias: ['Ciampi'] },
+    ],
+  },
+  {
+    id: 'papi',
+    titolo: 'Gli ultimi 8 papi, dal più recente',
+    volatile: true,
+    voci: [
+      { nome: 'Leone XIV', alias: ['Leone 14', 'Prevost'] },
+      { nome: 'Francesco', alias: ['Papa Francesco', 'Bergoglio'] },
+      { nome: 'Benedetto XVI', alias: ['Benedetto 16', 'Ratzinger'] },
+      { nome: 'Giovanni Paolo II', alias: ['Giovanni Paolo 2', 'Wojtyla'] },
+      { nome: 'Giovanni Paolo I', alias: ['Giovanni Paolo 1', 'Luciani'] },
+      { nome: 'Paolo VI', alias: ['Paolo 6', 'Montini'] },
+      { nome: 'Giovanni XXIII', alias: ['Giovanni 23', 'Roncalli'] },
+      { nome: 'Pio XII', alias: ['Pio 12', 'Pacelli'] },
+    ],
+  },
+  {
+    id: 'alfabeto-greco',
+    titolo: "Le prime 10 lettere dell'alfabeto greco, in ordine",
+    voci: [
+      { nome: 'Alfa', alias: ['Alpha'] }, { nome: 'Beta' }, { nome: 'Gamma' }, { nome: 'Delta' },
+      { nome: 'Epsilon' }, { nome: 'Zeta' }, { nome: 'Eta' }, { nome: 'Theta', alias: ['Teta'] },
+      { nome: 'Iota' }, { nome: 'Kappa', alias: ['Cappa'] },
+    ],
+  },
+  {
+    id: 'zodiaco',
+    titolo: "I primi 10 segni dello zodiaco, partendo dall'Ariete",
+    voci: [
+      { nome: 'Ariete' }, { nome: 'Toro' }, { nome: 'Gemelli' }, { nome: 'Cancro' },
+      { nome: 'Leone' }, { nome: 'Vergine' }, { nome: 'Bilancia' }, { nome: 'Scorpione' },
+      { nome: 'Sagittario' }, { nome: 'Capricorno' },
+    ],
+  },
+  {
+    id: 'arcobaleno',
+    titolo: "I 7 colori dell'arcobaleno, dall'esterno all'interno",
+    voci: [
+      { nome: 'Rosso' }, { nome: 'Arancione', alias: ['Arancio'] }, { nome: 'Giallo' },
+      { nome: 'Verde' }, { nome: 'Blu', alias: ['Azzurro'] }, { nome: 'Indaco' },
+      { nome: 'Violetto', alias: ['Viola'] },
+    ],
+  },
+  {
+    id: 'harry-potter',
+    titolo: 'I 7 libri di Harry Potter, in ordine di uscita',
+    voci: [
+      { nome: 'La pietra filosofale', alias: ['Pietra filosofale'] },
+      { nome: 'La camera dei segreti', alias: ['Camera dei segreti'] },
+      { nome: 'Il prigioniero di Azkaban', alias: ['Prigioniero di Azkaban', 'Azkaban'] },
+      { nome: 'Il calice di fuoco', alias: ['Calice di fuoco'] },
+      { nome: "L'Ordine della Fenice", alias: ['Ordine della Fenice', 'Fenice'] },
+      { nome: 'Il principe mezzosangue', alias: ['Principe mezzosangue', 'Mezzosangue'] },
+      { nome: 'I doni della morte', alias: ['Doni della morte'] },
+    ],
+  },
+  {
+    id: 'star-wars',
+    titolo: "I 9 episodi della saga di Star Wars, dall'Episodio I",
+    voci: [
+      { nome: 'La minaccia fantasma', alias: ['Minaccia fantasma'] },
+      { nome: "L'attacco dei cloni", alias: ['Attacco dei cloni'] },
+      { nome: 'La vendetta dei Sith', alias: ['Vendetta dei Sith'] },
+      { nome: 'Una nuova speranza', alias: ['Nuova speranza', 'Guerre stellari'] },
+      { nome: "L'Impero colpisce ancora", alias: ['Impero colpisce ancora'] },
+      { nome: 'Il ritorno dello Jedi', alias: ['Ritorno dello Jedi'] },
+      { nome: 'Il risveglio della Forza', alias: ['Risveglio della Forza'] },
+      { nome: 'Gli ultimi Jedi', alias: ['Ultimi Jedi'] },
+      { nome: "L'ascesa di Skywalker", alias: ['Ascesa di Skywalker'] },
+    ],
+  },
+
+  /* ---------------------------- scienza (altre) ---------------------------- */
+  {
+    id: 'pianeti-distanza',
+    titolo: 'I pianeti del sistema solare, dal più vicino al Sole',
+    voci: [
+      { nome: 'Mercurio' }, { nome: 'Venere' }, { nome: 'Terra' }, { nome: 'Marte' },
+      { nome: 'Giove' }, { nome: 'Saturno' }, { nome: 'Urano' }, { nome: 'Nettuno' },
+    ],
+  },
+  {
+    id: 'ossa-lunghe',
+    titolo: 'Le 6 ossa più lunghe del corpo umano',
+    voci: [
+      { nome: 'Femore' }, { nome: 'Tibia' }, { nome: 'Perone', alias: ['Fibula'] },
+      { nome: 'Omero' }, { nome: 'Ulna' }, { nome: 'Radio' },
+    ],
+  },
+  {
+    id: 'numeri-primi',
+    titolo: 'I primi 10 numeri primi',
+    voci: [
+      { nome: 'Due', alias: ['2'] }, { nome: 'Tre', alias: ['3'] }, { nome: 'Cinque', alias: ['5'] },
+      { nome: 'Sette', alias: ['7'] }, { nome: 'Undici', alias: ['11'] }, { nome: 'Tredici', alias: ['13'] },
+      { nome: 'Diciassette', alias: ['17'] }, { nome: 'Diciannove', alias: ['19'] },
+      { nome: 'Ventitré', alias: ['23', 'Ventitre'] }, { nome: 'Ventinove', alias: ['29'] },
+    ],
+  },
 ];
 
 export function randomTop10(rng: () => number = Math.random): Top10List {

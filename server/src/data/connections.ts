@@ -237,6 +237,141 @@ export const CONNECTIONS: ConnPuzzle[] = [
       { name: 'Sinonimi di regalo', level: 2, words: ['DONO', 'OMAGGIO', 'PRESENTE', 'STRENNA'] },
     ],
   },
+  {
+    id: 'cani',
+    groups: [
+      { name: 'Colori', level: 1, words: ['ROSSO', 'VERDE', 'GIALLO', 'BLU'] },
+      { name: 'Razze di cani', level: 2, words: ['BARBONCINO', 'BASSOTTO', 'DOBERMANN', 'CHIHUAHUA'] },
+      { name: "Parti dell'automobile", level: 3, words: ['VOLANTE', 'FRIZIONE', 'CRUSCOTTO', 'MARMITTA'] },
+      { name: 'Cani dei cartoni', level: 4, words: ['PLUTO', 'BOLT', 'LILLI', 'SCOOBY'] },
+    ],
+  },
+  {
+    id: 'colazione',
+    groups: [
+      { name: 'A colazione', level: 1, words: ['CORNETTO', 'BISCOTTI', 'MARMELLATA', 'CEREALI'] },
+      { name: 'Monete', level: 2, words: ['EURO', 'DOLLARO', 'STERLINA', 'YEN'] },
+      { name: 'Cose con i tasti', level: 3, words: ['TELECOMANDO', 'PIANOFORTE', 'CALCOLATRICE', 'TASTIERA'] },
+      { name: 'Colli di Roma', level: 4, words: ['PALATINO', 'AVENTINO', 'CAMPIDOGLIO', 'QUIRINALE'] },
+    ],
+  },
+  {
+    id: 'dei',
+    groups: [
+      { name: 'Supereroi Marvel', level: 1, words: ['THOR', 'HULK', 'WOLVERINE', 'DEADPOOL'] },
+      { name: 'Dei greci', level: 2, words: ['ZEUS', 'ATENA', 'APOLLO', 'POSEIDONE'] },
+      { name: 'Hanno le ali', level: 3, words: ['AEREO', 'ANGELO', 'FARFALLA', 'PIPISTRELLO'] },
+      { name: 'Pianeti nani', level: 4, words: ['PLUTONE', 'CERERE', 'ERIS', 'MAKEMAKE'] },
+    ],
+  },
+  {
+    id: 'mestieri',
+    groups: [
+      { name: 'Mestieri', level: 1, words: ['IDRAULICO', 'ELETTRICISTA', 'FALEGNAME', 'MURATORE'] },
+      { name: 'Attrezzi', level: 2, words: ['CACCIAVITE', 'TENAGLIA', 'SEGA', 'LIVELLA'] },
+      { name: 'Altri nomi delle chiacchiere di Carnevale', level: 3, words: ['FRAPPE', 'BUGIE', 'CENCI', 'GALANI'] },
+      { name: 'Nascondono un animale', level: 4, words: ['MOSCATO', 'CANESTRO', 'APERITIVO', 'GALLONE'] },
+    ],
+  },
+  {
+    id: 'punteggiatura',
+    groups: [
+      { name: 'Segni di punteggiatura', level: 1, words: ['VIRGOLA', 'PUNTO', 'TRATTINO', 'PARENTESI'] },
+      { name: 'Figure geometriche', level: 2, words: ['TRIANGOLO', 'ROMBO', 'TRAPEZIO', 'CERCHIO'] },
+      { name: 'Balli', level: 3, words: ['TARANTELLA', 'SAMBA', 'FLAMENCO', 'CHARLESTON'] },
+      { name: 'Parole inglesi del tennis', level: 4, words: ['SET', 'GAME', 'ACE', 'SMASH'] },
+    ],
+  },
+  {
+    id: 'fiabe',
+    groups: [
+      { name: 'Fiabe', level: 1, words: ['CENERENTOLA', 'BIANCANEVE', 'RAPERONZOLO', 'POLLICINO'] },
+      { name: 'Sinonimi di arrabbiato', level: 2, words: ['FURIOSO', 'IRATO', 'INFURIATO', 'STIZZITO'] },
+      { name: 'Nani di Biancaneve', level: 3, words: ['BRONTOLO', 'PISOLO', 'MAMMOLO', 'CUCCIOLO'] },
+      { name: 'Nascondono un numero', level: 4, words: ['TRENO', 'DUELLO', 'NOVELLA', 'OTTOBRE'] },
+    ],
+  },
+  {
+    id: 'bar',
+    groups: [
+      { name: 'Al bar', level: 1, words: ['CAPPUCCINO', 'SPREMUTA', 'APERITIVO', 'TRAMEZZINO'] },
+      { name: 'Pasta ripiena', level: 2, words: ['TORTELLINI', 'RAVIOLI', 'AGNOLOTTI', 'CAPPELLETTI'] },
+      { name: "Capitali dell'America Latina", level: 3, words: ['LIMA', 'QUITO', 'BOGOTÀ', 'SANTIAGO'] },
+      { name: 'Ordini religiosi', level: 4, words: ['FRANCESCANI', 'DOMENICANI', 'BENEDETTINI', 'GESUITI'] },
+    ],
+  },
+  {
+    id: 'germania',
+    groups: [
+      { name: 'Auto tedesche', level: 1, words: ['AUDI', 'OPEL', 'PORSCHE', 'VOLKSWAGEN'] },
+      { name: 'Città tedesche', level: 2, words: ['MONACO', 'AMBURGO', 'COLONIA', 'FRANCOFORTE'] },
+      { name: 'Compositori tedeschi', level: 3, words: ['BACH', 'BEETHOVEN', 'BRAHMS', 'WAGNER'] },
+      { name: 'Filosofi tedeschi', level: 4, words: ['KANT', 'HEGEL', 'NIETZSCHE', 'MARX'] },
+    ],
+  },
+  {
+    id: 'estate',
+    groups: [
+      { name: 'Gusti di gelato', level: 1, words: ['PISTACCHIO', 'STRACCIATELLA', 'NOCCIOLA', 'FIORDILATTE'] },
+      { name: 'Cocktail', level: 2, words: ['MOJITO', 'SPRITZ', 'NEGRONI', 'DAIQUIRI'] },
+      { name: 'Vette delle Alpi italiane', level: 3, words: ['CERVINO', 'MARMOLADA', 'ADAMELLO', 'ORTLES'] },
+      { name: 'Isole greche', level: 4, words: ['CRETA', 'RODI', 'CORFÙ', 'MYKONOS'] },
+    ],
+  },
+  {
+    id: 'cantautori',
+    groups: [
+      { name: 'Strumenti ad arco', level: 1, words: ['VIOLINO', 'VIOLA', 'VIOLONCELLO', 'CONTRABBASSO'] },
+      { name: 'Cantautori italiani', level: 2, words: ['DALLA', 'BATTISTI', 'GUCCINI', 'VENDITTI'] },
+      { name: 'Preposizioni articolate', level: 3, words: ['DELLA', 'NELLA', 'SULLA', 'ALLA'] },
+      { name: 'Indicazioni di tempo musicale', level: 4, words: ['ADAGIO', 'ALLEGRO', 'ANDANTE', 'PRESTO'] },
+    ],
+  },
+  {
+    id: 'social',
+    groups: [
+      { name: 'Parti del computer', level: 1, words: ['MOUSE', 'MONITOR', 'TASTIERA', 'STAMPANTE'] },
+      { name: 'Social network', level: 2, words: ['INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'SNAPCHAT'] },
+      { name: 'Pietre preziose', level: 3, words: ['RUBINO', 'ZAFFIRO', 'SMERALDO', 'TOPAZIO'] },
+      { name: 'Linguaggi di programmazione', level: 4, words: ['PYTHON', 'JAVA', 'RUBY', 'SWIFT'] },
+    ],
+  },
+  {
+    id: 'pinocchio',
+    groups: [
+      { name: 'Animali della savana', level: 1, words: ['LEONE', 'ZEBRA', 'GIRAFFA', 'GNU'] },
+      { name: 'Cuccioli', level: 2, words: ['PULCINO', 'VITELLO', 'AGNELLO', 'PULEDRO'] },
+      { name: 'Personaggi di Pinocchio', level: 3, words: ['GEPPETTO', 'MANGIAFUOCO', 'LUCIGNOLO', 'GRILLO'] },
+      { name: 'Parti della moka', level: 4, words: ['CALDAIA', 'FILTRO', 'GUARNIZIONE', 'VALVOLA'] },
+    ],
+  },
+  {
+    id: 'viaggio',
+    groups: [
+      { name: 'In aeroporto', level: 1, words: ['GATE', 'IMBARCO', 'BAGAGLIO', 'PASSAPORTO'] },
+      { name: 'Capitali asiatiche', level: 2, words: ['TOKYO', 'SEUL', 'BANGKOK', 'HANOI'] },
+      { name: 'Fiumi europei', level: 3, words: ['DANUBIO', 'VOLGA', 'SENNA', 'TAMIGI'] },
+      { name: 'Iniziano con una nota musicale', level: 4, words: ['DOMINO', 'REMO', 'FATA', 'LAMPO'] },
+    ],
+  },
+  {
+    id: 'racchette',
+    groups: [
+      { name: 'Sport con la racchetta', level: 1, words: ['TENNIS', 'PADEL', 'BADMINTON', 'SQUASH'] },
+      { name: 'Sinonimi di pazzo', level: 2, words: ['FOLLE', 'SVITATO', 'PICCHIATELLO', 'SQUILIBRATO'] },
+      { name: 'Termini degli scacchi', level: 3, words: ['ARROCCO', 'SCACCO', 'MATTO', 'STALLO'] },
+      { name: 'Sul campo di calcio', level: 4, words: ['AREA', 'DISCHETTO', 'BANDIERINA', 'TRAVERSA'] },
+    ],
+  },
+  {
+    id: 'sughi',
+    groups: [
+      { name: 'Utensili da cucina', level: 1, words: ['MESTOLO', 'COLINO', 'GRATTUGIA', 'SCHIUMAROLA'] },
+      { name: 'Salse', level: 2, words: ['BESCIAMELLA', 'TZATZIKI', 'AIOLI', 'GUACAMOLE'] },
+      { name: 'Primi della cucina romana', level: 3, words: ['CARBONARA', 'AMATRICIANA', 'GRICIA', 'ARRABBIATA'] },
+      { name: 'Vini rossi piemontesi', level: 4, words: ['BAROLO', 'BARBARESCO', 'BARBERA', 'DOLCETTO'] },
+    ],
+  },
 ];
 
 export function randomPuzzle(rng: () => number = Math.random): ConnPuzzle {

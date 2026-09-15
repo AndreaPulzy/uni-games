@@ -153,6 +153,9 @@ const indizioWords = INDIZIO_CARDS.map((c) => plainNorm(c.parola));
 check('nessuna carta di Indizio Secco ripetuta', new Set(indizioWords).size === indizioWords.length,
   indizioWords.filter((t, i) => indizioWords.indexOf(t) !== i).join(', '));
 check('abbastanza carte per Indizio Secco', INDIZIO_CARDS.length >= 80, `${INDIZIO_CARDS.length}`);
+// una parola segreta di 2-3 lettere farebbe rifiutare ogni indizio che la contiene
+const tooShort = INDIZIO_CARDS.filter((c) => plainNorm(c.parola).length < 4).map((c) => c.parola);
+check('nessuna parola segreta troppo corta', tooShort.length === 0, tooShort.join(', '));
 console.log(`  Indizio Secco: ${INDIZIO_CARDS.length} carte`);
 
 /* -------------------------- Disegna e indovina -------------------------- */
