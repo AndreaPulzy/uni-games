@@ -1,6 +1,7 @@
 import type { PlayerId } from '../../../shared/src/types.ts';
 import { MiniGame, type GameContext } from '../minigame.ts';
 import { scoreNomiCoseCitta, NCC_UNIQUE, NCC_DUPLICATE } from '../../../shared/src/scoring.ts';
+import { isWord } from '../data/dictionary.ts';
 
 export const CATEGORIE = ['Nome', 'Cosa', 'Citta', 'Animale', 'Mestiere', 'Cibo'] as const;
 /** Niente lettere impraticabili in italiano. */
@@ -17,6 +18,12 @@ interface Entry {
 }
 
 const norm = (s: string) => s.trim().toLowerCase().replace(/[^a-z]/g, '');
+const plain = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+/** Categorie di nomi comuni, dove il dizionario puo' dare un indizio.
+ *  Nome e Citta sono nomi propri: li' decide solo il voto del gruppo. */
+const HINTED = new Set([1, 3, 4, 5]);
+
+export type CellStatus = 'ok' | 'empty' | 'wrongLetter' | 'voided';
 
 export class NomiCoseCittaGame extends MiniGame {
   private phase: Phase = 'fill';
@@ -84,6 +91,8 @@ export class NomiCoseCittaGame extends MiniGame {
     const { target, index } = (payload ?? {}) as { target?: string; index?: number };
     if (!target || typeof index !== 'number' || target === playerId) return;
     if (!this.entries.has(target)) return;
+    // una casella vuota o con la lettera sbagliata vale gia' zero: niente da votare
+    if (!this.startsRight(this.entries.get(target)!.cells[index] ?? '')) return;
 
     const key = `${target}:${index}`;
     const set = this.flags.get(key) ?? new Set<PlayerId>();
@@ -92,11 +101,14 @@ export class NomiCoseCittaGame extends MiniGame {
     this.flags.set(key, set);
 
     // serve la meta' degli altri giocatori per annullare una casella
-    const others = this.ctx.players.length - 1;
-    if (set.size > others / 2) this.voided.add(key);
-    else this.voided.delete(key);
+    this.recomputeVoided();
 
     this.ctx.push();
+  }
+
+  /** etichetta dell'avanti mostrata a TV e regista */
+  directorPrompt(): string | null {
+    return this.phase === 'review' ? 'Assegna i punti' : null;
   }
 
   hostAdvance(): void {
@@ -110,6 +122,7 @@ export class NomiCoseCittaGame extends MiniGame {
   }
 
   private conclude(): void {
+    this.recomputeVoided();
     this.phase = 'result';
     this.ctx.setDeadline(null);
 
@@ -167,6 +180,60 @@ export class NomiCoseCittaGame extends MiniGame {
 
   onDisconnect(): void { this.ctx.push(); }
 
+  /* ------------------------------- revisione ------------------------------- */
+
+  /** Voti "non vale" necessari per annullare una casella: piu' della meta' degli altri. */
+  private threshold(): number {
+    const others = Math.max(1, this.ctx.players.length - 1);
+    return Math.floor(others / 2) + 1;
+  }
+
+  /** Contano solo i voti di chi e' ancora collegato. */
+  private flagCount(playerId: PlayerId, index: number): number {
+    const set = this.flags.get(`${playerId}:${index}`);
+    if (!set) return 0;
+    const active = new Set(this.ctx.players.map((p) => p.id));
+    return [...set].filter((id) => active.has(id)).length;
+  }
+
+  private recomputeVoided(): void {
+    const need = this.threshold();
+    this.voided.clear();
+    for (const p of this.ctx.players) {
+      for (let i = 0; i < CATEGORIE.length; i++) {
+        if (this.flagCount(p.id, i) >= need) this.voided.add(`${p.id}:${i}`);
+      }
+    }
+  }
+
+  /** Indizio per chi vota: una parola della risposta non esiste nel dizionario. */
+  private suspicious(cell: string, index: number): boolean {
+    if (!HINTED.has(index) || !this.startsRight(cell)) return false;
+    const tokens = plain(cell).split(/[^a-z]+/).filter((t) => t.length >= 2);
+    return tokens.length > 0 && tokens.some((t) => !isWord(t));
+  }
+
+  private cellView(playerId: PlayerId, index: number) {
+    const cell = this.entries.get(playerId)?.cells[index] ?? '';
+    const status: CellStatus = !cell.trim()
+      ? 'empty'
+      : !this.startsRight(cell)
+        ? 'wrongLetter'
+        : this.voided.has(`${playerId}:${index}`) ? 'voided' : 'ok';
+    const duplicate = status === 'ok' && this.ctx.players.some((p) => {
+      if (p.id === playerId) return false;
+      const other = this.entries.get(p.id)?.cells[index] ?? '';
+      return this.isCellValid(p.id, index, other) && norm(other) === norm(cell);
+    });
+    return {
+      text: cell,
+      status,
+      flags: this.flagCount(playerId, index),
+      suspicious: this.suspicious(cell, index),
+      duplicate,
+    };
+  }
+
   publicState() {
     const showAnswers = this.phase !== 'fill';
     return {
@@ -174,6 +241,7 @@ export class NomiCoseCittaGame extends MiniGame {
       letter: this.letter,
       categorie: CATEGORIE,
       stopperId: this.stopperId,
+      threshold: this.threshold(),
       progress: this.ctx.players.map((p) => {
         const e = this.entries.get(p.id);
         return {
@@ -181,9 +249,8 @@ export class NomiCoseCittaGame extends MiniGame {
           filled: e?.cells.filter((c) => this.startsRight(c)).length ?? 0,
           complete: e?.complete ?? false,
           cells: showAnswers ? e?.cells ?? [] : null,
-          voided: showAnswers
-            ? (e?.cells ?? []).map((_, i) => this.voided.has(`${p.id}:${i}`))
-            : null,
+          voided: showAnswers ? CATEGORIE.map((_, i) => this.voided.has(`${p.id}:${i}`)) : null,
+          review: showAnswers ? CATEGORIE.map((_, i) => this.cellView(p.id, i)) : null,
         };
       }),
     };
@@ -192,6 +259,7 @@ export class NomiCoseCittaGame extends MiniGame {
   privateState(playerId: PlayerId) {
     const e = this.entries.get(playerId);
     if (!e) return null;
+    const review = this.phase === 'review';
     return {
       phase: this.phase,
       letter: this.letter,
@@ -200,7 +268,9 @@ export class NomiCoseCittaGame extends MiniGame {
       complete: e.complete,
       frozen: e.frozen,
       canStop: this.phase === 'fill' && e.complete && !this.stopperId,
-      others: this.phase === 'review'
+      threshold: this.threshold(),
+      mine: review ? CATEGORIE.map((_, i) => this.cellView(playerId, i)) : null,
+      others: review
         ? this.ctx.players
             .filter((p) => p.id !== playerId)
             .map((p) => ({
@@ -208,10 +278,9 @@ export class NomiCoseCittaGame extends MiniGame {
               name: p.name,
               avatar: p.avatar,
               cells: this.entries.get(p.id)?.cells ?? [],
-              flagged: (this.entries.get(p.id)?.cells ?? []).map((_, i) =>
-                this.flags.get(`${p.id}:${i}`)?.has(playerId) ?? false),
-              voided: (this.entries.get(p.id)?.cells ?? []).map((_, i) =>
-                this.voided.has(`${p.id}:${i}`)),
+              flagged: CATEGORIE.map((_, i) => this.flags.get(`${p.id}:${i}`)?.has(playerId) ?? false),
+              voided: CATEGORIE.map((_, i) => this.voided.has(`${p.id}:${i}`)),
+              review: CATEGORIE.map((_, i) => this.cellView(p.id, i)),
             }))
         : null,
     };

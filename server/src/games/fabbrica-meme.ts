@@ -65,6 +65,11 @@ export class FabbricaMemeGame extends MiniGame {
     else this.ctx.push();
   }
 
+  /** etichetta dell'avanti mostrata a TV e regista */
+  directorPrompt(): string | null {
+    return this.phase === 'write' ? 'Passa alla galleria' : this.phase === 'vote' ? 'Chiudi il voto' : null;
+  }
+
   hostAdvance(): void {
     if (this.phase === 'write') this.toVote();
     else if (this.phase === 'vote') this.conclude();

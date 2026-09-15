@@ -1,6 +1,7 @@
 import type { Player, RoomState } from '@shared/types.ts';
 import { gameDef } from '@shared/catalog.ts';
 import { useCountdown, fmtTime } from '../net.ts';
+import { DirectorBar, DirectorLobby } from './DirectorPanel.tsx';
 import { WordlePlay } from './games/WordlePlay.tsx';
 import { ConnectionsPlay } from './games/ConnectionsPlay.tsx';
 import { NerdlePlay } from './games/NerdlePlay.tsx';
@@ -35,6 +36,8 @@ export function Controller({ room, me }: { room: RoomState; me: Player }) {
   const rank = [...room.players].sort((a, b) => b.score - a.score).findIndex((p) => p.id === me.id) + 1;
   const team = room.teams?.find((t) => t.members.includes(me.id)) ?? null;
   const Ctrl = room.currentGame ? CONTROLLERS[room.currentGame] : undefined;
+  const isDirector = room.directorId === me.id;
+  const director = room.players.find((p) => p.id === room.directorId) ?? null;
 
   return (
     <div className="phone">
@@ -42,6 +45,7 @@ export function Controller({ room, me }: { room: RoomState; me: Player }) {
         <div className="phone-me">
           <span className="av">{me.avatar}</span>
           <span>{me.name}</span>
+          {isDirector && <span className="chip director-chip">🎬 regista</span>}
           {team && (
             <span className="chip" style={{ borderColor: team.color, color: team.color, padding: '4px 10px', fontSize: '.72rem' }}>
               {team.name}
@@ -56,11 +60,17 @@ export function Controller({ room, me }: { room: RoomState; me: Player }) {
 
       <div className="phone-body">
         {room.phase === 'lobby' && (
-          <div className="phone-hero">
-            <h2>Sei dentro!</h2>
-            <p className="dim">Guarda la TV. Si parte appena tutti sono pronti.</p>
-            <span className="waiting-dots"><i /><i /><i /></span>
-          </div>
+          isDirector ? <DirectorLobby room={room} me={me} /> : (
+            <div className="phone-hero">
+              <h2>Sei dentro!</h2>
+              <p className="dim">
+                {director
+                  ? `${director.avatar} ${director.name} è il regista: avvierà la partita appena siete tutti.`
+                  : 'Guarda la TV. Si parte appena tutti sono pronti.'}
+              </p>
+              <span className="waiting-dots"><i /><i /><i /></span>
+            </div>
+          )
         )}
 
         {room.phase === 'intro' && def && (
@@ -102,6 +112,9 @@ export function Controller({ room, me }: { room: RoomState; me: Player }) {
             <div className="kicker">Fine partita</div>
             <div className="big-num grad-text">#{rank}</div>
             <p className="dim">{me.score} punti</p>
+            {!isDirector && director && (
+              <p className="faint" style={{ fontSize: '.85rem' }}>{director.name} può far partire una nuova partita.</p>
+            )}
           </div>
         )}
       </div>
@@ -113,6 +126,8 @@ export function Controller({ room, me }: { room: RoomState; me: Player }) {
           </span>
         </div>
       )}
+
+      {isDirector && room.phase !== 'lobby' && <DirectorBar room={room} />}
     </div>
   );
 }

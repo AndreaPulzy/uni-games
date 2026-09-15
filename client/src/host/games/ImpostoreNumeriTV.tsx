@@ -1,4 +1,4 @@
-import { emit } from '../../net.ts';
+import { advance, emit } from '../../net.ts';
 import type { RoomState } from '@shared/types.ts';
 import { VoteTally, ImpBanner } from './impostore-shared.tsx';
 
@@ -37,7 +37,7 @@ export function ImpostoreNumeriTV({ room }: { room: RoomState }) {
           kicker="Giustificate il vostro numero"
           title="Chi sta improvvisando?"
           sub={`Domanda: ${pub.domanda}`}
-          action={<button className="btn btn-primary btn-lg" onClick={() => emit('host:next')}>Si vota</button>}
+          action={<button className="btn btn-primary btn-lg" onClick={() => advance(room)}>Si vota</button>}
         />
       )}
 

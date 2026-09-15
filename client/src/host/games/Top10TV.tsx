@@ -1,4 +1,4 @@
-import { emit } from '../../net.ts';
+import { advance, emit } from '../../net.ts';
 import type { RoomState, TeamId } from '@shared/types.ts';
 
 interface Pub {
@@ -49,7 +49,7 @@ export function Top10TV({ room }: { room: RoomState }) {
         {pub.phase === 'reveal' && (
           <div className="row" style={{ gap: 16 }}>
             <span className="chip chip-cat-team">Classifica completa</span>
-            <button className="btn btn-primary" onClick={() => emit('host:next')}>Vai ai punti</button>
+            <button className="btn btn-primary" onClick={() => advance(room)}>Vai ai punti</button>
           </div>
         )}
       </div>

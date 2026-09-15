@@ -1,4 +1,4 @@
-import { emit } from '../../net.ts';
+import { advance, emit } from '../../net.ts';
 import type { RoomState } from '@shared/types.ts';
 import { VoteTally, ImpBanner } from './impostore-shared.tsx';
 
@@ -39,7 +39,7 @@ export function ImpostoreParolaTV({ room }: { room: RoomState }) {
           kicker="Discussione libera"
           title="Chi non c entra niente?"
           sub="Parlatene a voce, poi passate alla votazione."
-          action={<button className="btn btn-primary btn-lg" onClick={() => emit('host:next')}>Si vota</button>}
+          action={<button className="btn btn-primary btn-lg" onClick={() => advance(room)}>Si vota</button>}
         />
       )}
 

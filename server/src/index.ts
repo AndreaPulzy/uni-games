@@ -4,7 +4,7 @@ import cors from '@fastify/cors';
 import { Server as IOServer } from 'socket.io';
 import { fileURLToPath } from 'node:url';
 import { existsSync } from 'node:fs';
-import type { PlayerId, RoomCode } from '../../shared/src/types.ts';
+import type { PlayerId, RoomCode, RoomSettings } from '../../shared/src/types.ts';
 import { Room } from './room.ts';
 import { registry } from './registry.ts';
 import { lanAddress } from './net.ts';
@@ -79,6 +79,25 @@ function toastTo(code: RoomCode, playerId: PlayerId | null, kind: 'info'|'good'|
 
 interface SocketData { code?: RoomCode; playerId?: PlayerId; isHost?: boolean }
 
+/** I comandi di regia li puo' dare la TV oppure il telefono del regista:
+ *  con una smart TV senza mouse e' il telefono a far avanzare la partita. */
+function directedRoom(data: SocketData): Room | null {
+  const room = data.code ? rooms.get(data.code) : null;
+  if (!room) return null;
+  if (data.isHost) return room;
+  if (data.playerId && room.directorId === data.playerId) return room;
+  return null;
+}
+const NOT_DIRECTOR = { ok: false as const, error: 'Solo la TV o il regista possono farlo' };
+
+/** Alcuni eventi arrivano con o senza payload: la callback e' sempre l'ultimo argomento. */
+function splitArgs<T>(args: unknown[]): { payload: T | undefined; cb: ((r: unknown) => void) | undefined } {
+  const last = args[args.length - 1];
+  const cb = typeof last === 'function' ? (last as (r: unknown) => void) : undefined;
+  const payload = (cb ? args.slice(0, -1) : args)[0] as T | undefined;
+  return { payload, cb };
+}
+
 function createRoom(): Room {
   const room = new Room(newCode(), {
     registry,
@@ -144,27 +163,51 @@ io.on('connection', (socket) => {
     broadcast(code);
   });
 
-  socket.on('host:start', (p: { settings?: any }, cb) => {
-    const room = data.code ? rooms.get(data.code) : null;
-    if (!room || !data.isHost) return cb?.({ ok: false, error: 'Non autorizzato' });
-    const r = room.start(p?.settings);
-    cb?.(r.ok ? { ok: true } : { ok: false, error: r.error });
+  socket.on('host:start', (...args: unknown[]) => {
+    const { payload, cb } = splitArgs<{ settings?: Partial<RoomSettings> }>(args);
+    const room = directedRoom(data);
+    if (!room) return cb?.(NOT_DIRECTOR);
+    cb?.(room.start(payload?.settings));
     broadcast(room.code);
   });
 
-  socket.on('host:next', (cb) => {
-    const room = data.code ? rooms.get(data.code) : null;
-    if (!room || !data.isHost) return cb?.({ ok: false, error: 'Non autorizzato' });
-    if (room.phase === 'intro') room.beginPlay();
-    else if (room.phase === 'recap') room.nextRound();
-    else if (room.phase === 'playing') room.hostAdvance();
-    cb?.({ ok: true });
+  socket.on('host:settings', (...args: unknown[]) => {
+    const { payload, cb } = splitArgs<{ settings?: Partial<RoomSettings> }>(args);
+    const room = directedRoom(data);
+    if (!room) return cb?.(NOT_DIRECTOR);
+    cb?.(room.updateSettings(payload?.settings));
+    broadcast(room.code);
   });
 
-  socket.on('host:kick', (p: { playerId: PlayerId }, cb) => {
-    const room = data.code ? rooms.get(data.code) : null;
-    if (!room || !data.isHost) return cb?.({ ok: false, error: 'Non autorizzato' });
-    room.kick(p.playerId);
+  socket.on('host:next', (...args: unknown[]) => {
+    const { payload, cb } = splitArgs<{ expect?: string }>(args);
+    const room = directedRoom(data);
+    if (!room) return cb?.(NOT_DIRECTOR);
+    cb?.(room.advance(payload?.expect));
+    broadcast(room.code);
+  });
+
+  socket.on('host:restart', (...args: unknown[]) => {
+    const { cb } = splitArgs(args);
+    const room = directedRoom(data);
+    if (!room) return cb?.(NOT_DIRECTOR);
+    cb?.(room.restart());
+    broadcast(room.code);
+  });
+
+  socket.on('director:transfer', (...args: unknown[]) => {
+    const { payload, cb } = splitArgs<{ playerId?: PlayerId }>(args);
+    const room = directedRoom(data);
+    if (!room) return cb?.(NOT_DIRECTOR);
+    cb?.(room.transferDirector(payload?.playerId ?? ''));
+    broadcast(room.code);
+  });
+
+  socket.on('host:kick', (...args: unknown[]) => {
+    const { payload, cb } = splitArgs<{ playerId?: PlayerId }>(args);
+    const room = directedRoom(data);
+    if (!room) return cb?.(NOT_DIRECTOR);
+    room.kick(payload?.playerId ?? '');
     cb?.({ ok: true });
     broadcast(room.code);
   });

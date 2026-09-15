@@ -1,4 +1,4 @@
-import { emit, useCountdown } from '../net.ts';
+import { advance, emit, useCountdown } from '../net.ts';
 import type { RoomState } from '@shared/types.ts';
 import { CATEGORY_LABEL } from '@shared/types.ts';
 import { gameDef } from '@shared/catalog.ts';
@@ -45,7 +45,7 @@ export function Intro({ room }: { room: RoomState }) {
         </div>
       )}
 
-      <button className="btn btn-primary btn-lg" onClick={() => emit('host:next')}>
+      <button className="btn btn-primary btn-lg" onClick={() => advance(room)}>
         Si comincia {left > 0 && <span className="mono">· {Math.ceil(left / 1000)}</span>}
       </button>
     </div>

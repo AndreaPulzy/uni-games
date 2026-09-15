@@ -1,4 +1,4 @@
-import { emit } from '../../net.ts';
+import { advance, emit } from '../../net.ts';
 import type { RoomState } from '@shared/types.ts';
 
 interface Pub {
@@ -22,7 +22,7 @@ export function FabbricaMemeTV({ room }: { room: RoomState }) {
           <div className="meme-art">{pub.template.art}</div>
           <h2 className="grad-text" style={{ maxWidth: '20ch' }}>{pub.template.scena}</h2>
           <p className="dim" style={{ margin: 0 }}>{pub.submitted} / {pub.total} meme consegnati</p>
-          <button className="btn btn-lg" onClick={() => emit('host:next')}>Passa alla galleria</button>
+          <button className="btn btn-lg" onClick={() => advance(room)}>Passa alla galleria</button>
         </div>
       </div>
     );
@@ -42,7 +42,7 @@ export function FabbricaMemeTV({ room }: { room: RoomState }) {
         {pub.phase === 'vote' && (
           <div className="row" style={{ gap: 14 }}>
             <span className="mono dim">voti {pub.votesReceived}</span>
-            <button className="btn btn-primary" onClick={() => emit('host:next')}>Chiudi il voto</button>
+            <button className="btn btn-primary" onClick={() => advance(room)}>Chiudi il voto</button>
           </div>
         )}
       </div>

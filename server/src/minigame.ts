@@ -49,6 +49,11 @@ export abstract class MiniGame {
   /** l'host preme "avanti" dalla TV: usato dai giochi con fasi di discussione */
   hostAdvance(): void {}
 
+  /** Etichetta del pulsante "avanti" da mostrare a TV e regista, oppure null se
+   *  in questa fase non c'e' niente da far avanzare a mano. Deve cambiare dopo
+   *  ogni avanzamento: e' cosi' che il server scarta i doppi tocchi. */
+  directorPrompt(): string | null { return null; }
+
   /** invocato ogni secondo mentre il round e' attivo */
   tick(): void {}
 

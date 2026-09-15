@@ -642,3 +642,21 @@
   cursor: pointer;
 }
 .rounds-pick button.on { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,.12); }
+
+/* ------------------------------- regista ---------------------------------- */
+
+button.player-card { font-family: inherit; color: var(--ink); text-align: left; cursor: pointer; }
+.player-card.director { box-shadow: 0 0 30px -14px var(--gold); border-color: rgba(255,217,61,.55); }
+.player-card .dir-badge { margin-left: auto; font-size: .72rem; font-weight: 800; color: var(--gold); white-space: nowrap; }
+
+/* ------------------------ nomi cose citta: revisione ----------------------- */
+
+.ncc-table td.bad { color: var(--ink-faint); text-decoration: line-through; }
+.ncc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  justify-content: center;
+  font-size: .9rem;
+  color: var(--ink-dim);
+}

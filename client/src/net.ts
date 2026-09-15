@@ -11,6 +11,13 @@ export function emit<T = unknown>(event: string, payload?: unknown): Promise<T> 
   });
 }
 
+/** "Avanti" di regia, dalla TV o dal telefono del regista. L'etichetta vista
+ *  viene rimandata al server: se qualcuno ha gia' fatto avanzare la partita,
+ *  il secondo tocco viene ignorato invece di saltare una fase. */
+export function advance(room: RoomState) {
+  return emit<{ ok: boolean; error?: string }>('host:next', { expect: room.directorAction ?? undefined });
+}
+
 /** Snapshot pubblico della stanza, aggiornato dal server. */
 export function useRoom(): RoomState | null {
   const [room, setRoom] = useState<RoomState | null>(null);

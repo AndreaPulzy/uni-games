@@ -122,6 +122,11 @@ export abstract class TeamCardGame extends MiniGame {
     this.ctx.push();
   }
 
+  /** etichetta dell'avanti mostrata a TV e regista */
+  directorPrompt(): string | null {
+    return this.phase === 'ready' ? 'Via!' : null;
+  }
+
   hostAdvance(): void {
     if (this.phase === 'ready') this.beginTurn();
     else if (this.phase === 'playing') this.endTurn();

@@ -25,7 +25,7 @@ for (let n = 3; n <= 12; n++) console.log(`   ${String(n).padStart(2)}  ${table[
 
 check('con 5 giocatori Intesa Vincente non e proponibile', !table[5].includes('intesa-vincente'));
 check('con 6 giocatori Intesa Vincente si sblocca', table[6].includes('intesa-vincente'));
-check('Ghost sparisce oltre 6 giocatori', !table[7].includes('ghost') && table[6].includes('ghost'));
+check('Ghost e un gioco da 3-4 giocatori', table[3].includes('ghost') && table[4].includes('ghost') && !table[5].includes('ghost'));
 check('Impostore richiede almeno 4', !table[3].includes('impostore-parola') && table[4].includes('impostore-parola'));
 check('i giochi a squadre richiedono almeno 4', !table[3].some((id) => gameDef(id as any).category === 'team'));
 

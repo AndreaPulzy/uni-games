@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { RoomState } from '@shared/types.ts';
+import { emit } from '../net.ts';
 import { Leaderboard } from '../ui/Leaderboard.tsx';
 
 const ORDER = [1, 0, 2]; // 2o, 1o, 3o
@@ -58,6 +59,14 @@ export function Final({ room }: { room: RoomState }) {
           </div>
         </div>
       )}
+      <div className="center col" style={{ gap: 8, paddingBottom: 8 }}>
+        <button className="btn btn-primary btn-lg" onClick={() => emit('host:restart')}>
+          Nuova partita
+        </button>
+        <span className="faint" style={{ fontSize: '.85rem' }}>
+          Stessi giocatori, punteggi azzerati · anche dal telefono del regista
+        </span>
+      </div>
     </div>
   );
 }

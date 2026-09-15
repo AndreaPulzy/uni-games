@@ -1,4 +1,4 @@
-import { emit } from '../net.ts';
+import { advance, emit } from '../net.ts';
 import type { RoomState } from '@shared/types.ts';
 import { gameDef } from '@shared/catalog.ts';
 import { Leaderboard } from '../ui/Leaderboard.tsx';
@@ -45,7 +45,7 @@ export function Recap({ room }: { room: RoomState }) {
       </div>
 
       <div className="center" style={{ paddingTop: 20 }}>
-        <button className="btn btn-primary btn-lg" onClick={() => emit('host:next')}>
+        <button className="btn btn-primary btn-lg" onClick={() => advance(room)}>
           {last ? 'Vai alla classifica finale' : 'Prossimo minigioco'}
         </button>
       </div>

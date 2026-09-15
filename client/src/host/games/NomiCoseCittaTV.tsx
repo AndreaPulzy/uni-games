@@ -1,19 +1,33 @@
-import { emit } from '../../net.ts';
+import { advance } from '../../net.ts';
 import type { RoomState } from '@shared/types.ts';
 
+interface CellView {
+  text: string;
+  status: 'ok' | 'empty' | 'wrongLetter' | 'voided';
+  flags: number;
+  suspicious: boolean;
+  duplicate: boolean;
+}
 interface Pub {
   phase: 'fill' | 'review' | 'result';
   letter: string;
   categorie: string[];
   stopperId: string | null;
+  threshold: number;
   progress: {
     playerId: string;
     filled: number;
     complete: boolean;
-    cells: string[] | null;
-    voided: boolean[] | null;
+    review: CellView[] | null;
   }[];
 }
+
+const CELL_CLASS: Record<CellView['status'], string> = {
+  ok: '',
+  empty: 'empty',
+  wrongLetter: 'bad',
+  voided: 'void',
+};
 
 export function NomiCoseCittaTV({ room }: { room: RoomState }) {
   const pub = room.game as Pub | null;
@@ -61,15 +75,15 @@ export function NomiCoseCittaTV({ room }: { room: RoomState }) {
         <div className="row" style={{ gap: 16 }}>
           <span className="chip chip-cat-untimed mono" style={{ fontSize: '1.4rem' }}>{pub.letter}</span>
           <div>
-            <div className="kicker">Revisione</div>
+            <div className="kicker">Controllo delle risposte</div>
             <h3 style={{ fontSize: 'clamp(17px,1.7vw,26px)' }}>
               {stopper ? `${stopper} ha detto STOP` : 'Tempo scaduto'}
             </h3>
           </div>
         </div>
-        {pub.phase === 'review' && (
-          <button className="btn btn-primary btn-lg" onClick={() => emit('host:next')}>
-            Assegna i punti
+        {pub.phase === 'review' && room.directorAction && (
+          <button className="btn btn-primary btn-lg" onClick={() => advance(room)}>
+            {room.directorAction}
           </button>
         )}
       </div>
@@ -89,24 +103,32 @@ export function NomiCoseCittaTV({ room }: { room: RoomState }) {
               return (
                 <tr key={row.playerId}>
                   <td className="who">{p.avatar} {p.name}</td>
-                  {(row.cells ?? []).map((cell, i) => {
-                    const void_ = row.voided?.[i];
-                    return (
-                      <td key={i} className={void_ ? 'void' : cell ? '' : 'empty'}>
-                        {cell || '—'}
-                      </td>
-                    );
-                  })}
+                  {(row.review ?? []).map((v, i) => (
+                    <td key={i} className={CELL_CLASS[v.status]}>
+                      <span className="ncc-ans">{v.text || '—'}</span>
+                      {v.suspicious && <span className="ncc-badge warn" title="Non trovata nel dizionario">⚠</span>}
+                      {v.duplicate && <span className="ncc-badge dup" title="Scritta da più giocatori">×2</span>}
+                      {v.flags > 0 && (
+                        <span className={`ncc-badge flag${v.status === 'voided' ? ' hit' : ''}`}>
+                          ⚑ {v.flags}/{pub.threshold}
+                        </span>
+                      )}
+                    </td>
+                  ))}
                 </tr>
               );
             })}
           </tbody>
         </table>
       </div>
+
       {pub.phase === 'review' && (
-        <p className="faint center" style={{ fontSize: '.9rem' }}>
-          Dal telefono potete segnalare le risposte inventate: se lo fa la maggioranza, valgono zero.
-        </p>
+        <div className="ncc-legend">
+          <span>Dal telefono si vota <b>«Non vale»</b> sulle risposte inventate</span>
+          <span><span className="ncc-badge flag hit">⚑ {pub.threshold}/{pub.threshold}</span> voti necessari: la risposta vale 0</span>
+          <span><span className="ncc-badge warn">⚠</span> non trovata nel dizionario</span>
+          <span><span className="ncc-badge dup">×2</span> doppia: vale 5 invece di 10</span>
+        </div>
       )}
     </div>
   );

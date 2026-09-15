@@ -1,4 +1,4 @@
-import { emit } from '../../net.ts';
+import { advance, emit } from '../../net.ts';
 import type { RoomState, TeamId } from '@shared/types.ts';
 
 export interface TeamPub {
@@ -59,7 +59,7 @@ export function TeamCardTV({
               {presenterLabel}: <b>{presenters}</b>
               {solvers && <><br />{solverLabel}: <b>{solvers}</b></>}
             </div>
-            <button className="btn btn-primary btn-lg" onClick={() => emit('host:next')}>Via!</button>
+            <button className="btn btn-primary btn-lg" onClick={() => advance(room)}>Via!</button>
           </>
         )}
 

@@ -92,6 +92,11 @@ export function HostApp() {
             {room.phase !== 'lobby' && (
               <span className="chip mono" title="Codice stanza">{room.code}</span>
             )}
+            {room.directorId && (
+              <span className="chip" style={{ borderColor: 'rgba(255,217,61,.55)', color: 'var(--gold)' }}>
+                🎬 {room.players.find((p) => p.id === room.directorId)?.name}
+              </span>
+            )}
             <span className="chip">{room.players.filter((p) => p.connected).length} 👥</span>
           </div>
         </header>

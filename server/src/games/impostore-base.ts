@@ -87,6 +87,11 @@ export abstract class ImpostorBase extends MiniGame {
     }
   }
 
+  /** etichetta dell'avanti mostrata a TV e regista */
+  directorPrompt(): string | null {
+    return this.phase === 'discussion' ? 'Si vota' : null;
+  }
+
   /** la TV fa avanzare dalla discussione alla votazione */
   hostAdvance(): void {
     if (this.phase === 'discussion') this.toVote();

@@ -1,6 +1,7 @@
 import type { PlayerId } from '../../../shared/src/types.ts';
 import { MiniGame, type GameContext } from '../minigame.ts';
 import { isWord, hasPrefix, anyWordWithPrefix } from '../data/dictionary.ts';
+import { scoreByRank } from '../../../shared/src/scoring.ts';
 
 const TURN_MS = 7_000;
 const DEFEND_MS = 15_000;
@@ -8,7 +9,6 @@ const VOTE_MS = 20_000;
 const BREAK_MS = 3_500;
 const MIN_WORD = 4;
 const GHOST = 'GHOST';
-const MAX_ROUNDS = 12;
 
 type Mode = 'letter' | 'defend' | 'vote' | 'break';
 
@@ -39,6 +39,10 @@ export class GhostGame extends MiniGame {
   private log: string[] = [];
   private handsPlayed = 0;
   private lastLoser: PlayerId | null = null;
+  /** in ordine di uscita: serve per la classifica finale del round */
+  private eliminated: { id: PlayerId; hand: number; reason: 'lettere' | 'uscito' }[] = [];
+  /** l'ultima eliminazione e' avvenuta: dopo la pausa si passa ai punti */
+  private decided = false;
 
   constructor(ctx: GameContext) { super(ctx); }
 
@@ -212,17 +216,22 @@ export class GhostGame extends MiniGame {
 
     if (n >= GHOST.length) {
       this.out.add(playerId);
-      this.ctx.toast(null, 'info', `${this.nameOf(playerId)} e eliminato`);
+      this.eliminated.push({ id: playerId, hand: this.handsPlayed, reason: 'lettere' });
+      this.ctx.toast(null, 'info', `${this.nameOf(playerId)} è eliminato`);
     }
 
     this.challenge = null;
     this.vote = null;
 
-    if (this.alive.length <= 1 || this.handsPlayed >= MAX_ROUNDS) {
+    // eliminazione pura: si gioca finche' non resta un solo giocatore.
+    // Con 3-4 giocatori le manche sono al massimo 14-19, quindi il round finisce sempre.
+    if (this.alive.length <= 1) {
+      // l'eliminazione decisiva resta a schermo qualche secondo prima dei punti
+      this.decided = true;
       this.mode = 'break';
-      this.ctx.setDeadline(null);
+      this.ctx.setDeadline(BREAK_MS);
       this.ctx.push();
-      return this.conclude();
+      return;
     }
 
     // pausa per far leggere l'esito, poi si riparte da chi ha perso
@@ -246,6 +255,7 @@ export class GhostGame extends MiniGame {
         this.closeVote();
         break;
       case 'break': {
+        if (this.decided) return this.conclude();
         const loserIdx = this.order.findIndex((id) => id === this.lastLoser);
         this.newHand(loserIdx >= 0 ? loserIdx : this.turnIdx);
         break;
@@ -257,38 +267,49 @@ export class GhostGame extends MiniGame {
   onDisconnect(playerId: PlayerId): void {
     if (this.out.has(playerId)) return;
     this.out.add(playerId);
+    this.eliminated.push({ id: playerId, hand: this.handsPlayed, reason: 'uscito' });
     if (this.alive.length <= 1) this.conclude();
     else if (this.mode === 'letter' && this.currentId === playerId) { this.advanceTurn(); this.ctx.push(); }
   }
 
   private conclude(): void {
+    this.ctx.setDeadline(null);
+
+    // classifica: prima chi e' ancora in piedi, poi gli eliminati dall'ultimo al primo
+    const inGame = new Set(this.ctx.players.map((p) => p.id));
+    const survivors = this.alive.filter((id) => inGame.has(id));
+    const fallen = [...this.eliminated].reverse().filter((e) => inGame.has(e.id));
+    const ranking = [
+      ...survivors.map((id) => ({ id, pos: 1 })),
+      ...fallen.map((e, i) => ({ id: e.id, pos: survivors.length + i + 1 })),
+    ];
+
     const raw: Record<PlayerId, number> = {};
     const detail: Record<PlayerId, string> = {};
-    for (const p of this.ctx.players) {
-      const n = this.letters.get(p.id) ?? 0;
-      raw[p.id] = Math.max(0, 1000 - 200 * n);
-      detail[p.id] = n === 0 ? 'Nessuna lettera presa' : `${GHOST.slice(0, n)} (${n} manche perse)`;
+    for (const r of ranking) {
+      raw[r.id] = scoreByRank(r.pos, ranking.length);
+      const lettere = this.letters.get(r.id) ?? 0;
+      const e = this.eliminated.find((x) => x.id === r.id);
+      detail[r.id] = !e
+        ? `Ultimo sopravvissuto · ${lettere ? GHOST.slice(0, lettere) : 'nessuna lettera'}`
+        : e.reason === 'uscito'
+          ? `${r.pos}° posto · uscito dalla partita`
+          : `${r.pos}° posto · eliminato alla manche ${e.hand}`;
     }
-    const survivors = this.alive.map((id) => this.nameOf(id));
-    // col tetto di manche capita spesso che nessuno venga eliminato:
-    // allora il titolo va a chi ha preso meno lettere
-    const counts = this.ctx.players.map((p) => ({ name: p.name, n: this.letters.get(p.id) ?? 0 }));
-    const fewest = counts.length ? Math.min(...counts.map((c) => c.n)) : 0;
-    const leaders = counts.filter((c) => c.n === fewest).map((c) => c.name);
-    const score = fewest === 0 ? 'nessuna lettera' : GHOST.slice(0, fewest);
 
     const headline = survivors.length === 1
-      ? `${survivors[0]} sopravvive a tutti`
-      : leaders.length === 1
-        ? `${leaders[0]} resiste meglio di tutti (${score})`
-        : leaders.length > 1
-          ? `In testa a pari merito: ${leaders.join(', ')} (${score})`
-          : 'Manche concluse';
+      ? `${this.nameOf(survivors[0])} è l'ultimo sopravvissuto`
+      : survivors.length > 1
+        ? `Restano in piedi: ${survivors.map((id) => this.nameOf(id)).join(', ')}`
+        : 'Nessun sopravvissuto';
+    const order = this.eliminated
+      .map((e) => `${this.nameOf(e.id)} (manche ${e.hand})`)
+      .join(' → ');
 
     this.ctx.finish({
       raw,
       detail,
-      reveal: [headline, this.log.slice(-3).join(' · ') || 'Manche senza storia'],
+      reveal: [headline, order ? `Eliminati: ${order}` : 'Nessuno eliminato'],
     });
   }
 

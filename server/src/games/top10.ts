@@ -92,6 +92,11 @@ export class Top10Game extends MiniGame {
     this.ctx.push();
   }
 
+  /** etichetta dell'avanti mostrata a TV e regista */
+  directorPrompt(): string | null {
+    return this.phase === 'reveal' ? 'Vai ai punti' : null;
+  }
+
   hostAdvance(): void {
     if (this.phase === 'guess') this.nextTurn();
     else if (this.phase === 'reveal') this.conclude();

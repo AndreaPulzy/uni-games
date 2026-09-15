@@ -33,8 +33,10 @@ async function playOne(gameId: string): Promise<void> {
   host.on('room', (s) => { room = s; });
   const { code } = await ask<{ code: string }>(host, 'host:create');
 
+  const def = GAMES.find((g) => g.id === gameId)!;
+  const count = Math.max(def.minPlayers, Math.min(PLAYERS.length, def.maxPlayers));
   const bots: Bot[] = [];
-  for (const name of PLAYERS) {
+  for (const name of PLAYERS.slice(0, count)) {
     const s = await conn();
     const bot: Bot = { socket: s, name, id: '', priv: null };
     s.on('private', (v: any) => { bot.priv = v.game; bot.id = v.playerId; });

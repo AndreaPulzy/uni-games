@@ -103,6 +103,11 @@ export class RispostaBastardaGame extends MiniGame {
     this.ctx.push();
   }
 
+  /** etichetta dell'avanti mostrata a TV e regista */
+  directorPrompt(): string | null {
+    return this.phase === 'write' ? 'Passa alla votazione' : null;
+  }
+
   hostAdvance(): void {
     if (this.phase === 'write') this.toVote();
     else if (this.phase === 'vote') this.nextDuel();

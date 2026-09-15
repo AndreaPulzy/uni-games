@@ -93,6 +93,18 @@ const marco = room.game.progress.find((p: any) => p.playerId === players[2].id);
 check('una segnalazione di maggioranza annulla la casella', marco.voided[0] === true,
   `voided: ${JSON.stringify(marco.voided)}`);
 check('le altre caselle restano valide', marco.voided.slice(1).every((v: boolean) => !v));
+check('la soglia di voto e visibile: con 4 giocatori servono 2 voti', room.game.threshold === 2, `${room.game.threshold}`);
+check('il conteggio dei voti e visibile a tutti', marco.review[0].flags === 3 && marco.review[0].status === 'voided',
+  JSON.stringify(marco.review[0]));
+check('una risposta inventata in "Cosa" viene segnalata dal dizionario', marco.review[1].suspicious === true, marco.review[1].text);
+check('sui nomi propri il dizionario non interviene', marco.review[0].suspicious === false);
+const andreaRev = room.game.progress.find((p: any) => p.playerId === players[0].id).review;
+check('le risposte doppie sono evidenziate prima dei punti', andreaRev[2].duplicate === true && marco.review[2].duplicate === false);
+
+await ask(players[0].s, 'game:action', { type: 'flag', payload: { target: players[3].id, index: 5 } });
+await sleep(250);
+const saraRev = room.game.progress.find((p: any) => p.playerId === players[3].id).review;
+check('non si vota su una casella vuota', saraRev[5].status === 'empty' && saraRev[5].flags === 0);
 
 await ask(host, 'host:next');
 await waitFor('recap', () => room?.phase === 'recap');

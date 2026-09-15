@@ -73,6 +73,10 @@ export interface RoomState {
   /** ms epoch di scadenza del timer server, null se nessun timer attivo */
   deadline: number | null;
   serverNow: number;
+  /** il telefono che comanda la partita: serve quando la TV non ha un mouse */
+  directorId: PlayerId | null;
+  /** etichetta dell'"avanti" che ha senso in questo momento, null se non c'e' */
+  directorAction: string | null;
 }
 
 export interface RoomSettings {
@@ -112,8 +116,13 @@ export interface ClientToServer {
   'host:create': (cb: (r: { code: RoomCode }) => void) => void;
   'host:attach': (p: { code: RoomCode }, cb: (r: Ack) => void) => void;
   'host:start': (p: { settings?: Partial<RoomSettings> }, cb: (r: Ack) => void) => void;
-  'host:next': (cb: (r: Ack) => void) => void;
+  /** `expect` = etichetta vista dal client: evita il doppio avanzamento */
+  'host:next': (p: { expect?: string }, cb: (r: Ack) => void) => void;
   'host:kick': (p: { playerId: PlayerId }, cb: (r: Ack) => void) => void;
+  /** i comandi host:* li puo' dare la TV oppure il telefono del regista */
+  'host:settings': (p: { settings: Partial<RoomSettings> }, cb: (r: Ack) => void) => void;
+  'host:restart': (cb: (r: Ack) => void) => void;
+  'director:transfer': (p: { playerId: PlayerId }, cb: (r: Ack) => void) => void;
 
   'player:join': (
     p: { code: RoomCode; name: string; token?: string },

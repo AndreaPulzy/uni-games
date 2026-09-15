@@ -8,13 +8,14 @@ import { Setup } from './Setup.tsx';
 export function Lobby({ room, joinUrl }: { room: RoomState; joinUrl: string }) {
   const [qr, setQr] = useState('');
   const [error, setError] = useState('');
-  const [excluded, setExcluded] = useState<GameId[]>([]);
-  const [rounds, setRounds] = useState(9);
   const [showSetup, setShowSetup] = useState(false);
 
+  // le impostazioni vivono sul server: TV e regista vedono sempre le stesse
+  const { excluded, totalRounds } = room.settings;
   const active = room.players.filter((p) => p.connected);
   const pool = playableGames(active.length, excluded);
   const canStart = active.length >= MIN_PLAYERS && pool.length > 0;
+  const director = room.players.find((p) => p.id === room.directorId) ?? null;
 
   useEffect(() => {
     QRCode.toDataURL(joinUrl, {
@@ -25,16 +26,16 @@ export function Lobby({ room, joinUrl }: { room: RoomState; joinUrl: string }) {
     }).then(setQr).catch(() => setQr(''));
   }, [joinUrl]);
 
-  async function start() {
+  async function send(event: string, payload?: unknown) {
     setError('');
-    const r = await emit<{ ok: boolean; error?: string }>('host:start', {
-      settings: { totalRounds: rounds, excluded },
-    });
-    if (!r.ok) setError(r.error ?? 'Impossibile iniziare');
+    const r = await emit<{ ok: boolean; error?: string }>(event, payload);
+    if (!r?.ok) setError(r?.error ?? 'Qualcosa è andato storto');
   }
 
   const toggle = (id: GameId) =>
-    setExcluded((e) => (e.includes(id) ? e.filter((x) => x !== id) : [...e, id]));
+    send('host:settings', {
+      settings: { excluded: excluded.includes(id) ? excluded.filter((x) => x !== id) : [...excluded, id] },
+    });
 
   return (
     <div className="lobby">
@@ -56,9 +57,14 @@ export function Lobby({ room, joinUrl }: { room: RoomState; joinUrl: string }) {
             <h2 style={{ fontSize: 'clamp(26px, 3vw, 48px)' }}>
               {active.length} giocator{active.length === 1 ? 'e' : 'i'}
             </h2>
+            <p className="dim" style={{ margin: '6px 0 0', fontSize: '.9rem' }}>
+              {director
+                ? <>🎬 <b style={{ color: 'var(--gold)' }}>{director.name}</b> è il regista: può avviare e comandare la partita dal telefono</>
+                : 'Il primo che entra diventa il regista e comanda dal telefono'}
+            </p>
           </div>
           <div className="col" style={{ alignItems: 'flex-end', gap: 8 }}>
-            <button className="btn btn-primary btn-lg" onClick={start} disabled={!canStart}>
+            <button className="btn btn-primary btn-lg" onClick={() => send('host:start', {})} disabled={!canStart}>
               {active.length < MIN_PLAYERS
                 ? `Servono ${MIN_PLAYERS} giocatori`
                 : pool.length === 0
@@ -70,7 +76,7 @@ export function Lobby({ room, joinUrl }: { room: RoomState; joinUrl: string }) {
               {showSetup ? 'Nascondi impostazioni' : 'Scegli i minigiochi'}
             </button>
             <span className="faint" style={{ fontSize: '.85rem' }}>
-              {pool.length} {pool.length === 1 ? 'minigioco' : 'minigiochi'} in gioco · {rounds} round
+              {pool.length} {pool.length === 1 ? 'minigioco' : 'minigiochi'} in gioco · {totalRounds} round
             </span>
             {error && <span style={{ color: 'var(--danger)', fontSize: '.85rem' }}>{error}</span>}
           </div>
@@ -80,18 +86,28 @@ export function Lobby({ room, joinUrl }: { room: RoomState; joinUrl: string }) {
           <Setup
             playerCount={active.length}
             excluded={excluded}
-            rounds={rounds}
+            rounds={totalRounds}
             onToggle={toggle}
-            onRounds={setRounds}
+            onRounds={(n) => send('host:settings', { settings: { totalRounds: n } })}
           />
         ) : (
           <div className="roster-grid">
-            {room.players.map((p) => (
-              <div key={p.id} className={`player-card${p.connected ? '' : ' off'}`} style={{ ['--pc' as string]: p.color }}>
-                <span className="av">{p.avatar}</span>
-                <span className="nm">{p.name}</span>
-              </div>
-            ))}
+            {room.players.map((p) => {
+              const isDirector = p.id === room.directorId;
+              return (
+                <button
+                  key={p.id}
+                  className={`player-card${p.connected ? '' : ' off'}${isDirector ? ' director' : ''}`}
+                  style={{ ['--pc' as string]: p.color }}
+                  title={isDirector ? 'Regista' : 'Clicca per renderlo regista'}
+                  onClick={() => !isDirector && p.connected && send('director:transfer', { playerId: p.id })}
+                >
+                  <span className="av">{p.avatar}</span>
+                  <span className="nm">{p.name}</span>
+                  {isDirector && <span className="dir-badge">🎬 regista</span>}
+                </button>
+              );
+            })}
             {Array.from({ length: Math.max(0, MIN_PLAYERS - room.players.length) }).map((_, i) => (
               <div key={`slot${i}`} className="empty-slot">posto libero</div>
             ))}

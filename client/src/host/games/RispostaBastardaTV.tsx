@@ -1,4 +1,4 @@
-import { emit } from '../../net.ts';
+import { advance, emit } from '../../net.ts';
 import type { RoomState } from '@shared/types.ts';
 
 interface Option { authorId: string; text: string; votes?: number }
@@ -25,7 +25,7 @@ export function RispostaBastardaTV({ room }: { room: RoomState }) {
           <p className="dim" style={{ margin: 0 }}>
             {pub.written} / {pub.writtenTotal} risposte consegnate
           </p>
-          <button className="btn btn-lg" onClick={() => emit('host:next')}>Passa alla votazione</button>
+          <button className="btn btn-lg" onClick={() => advance(room)}>Passa alla votazione</button>
         </div>
       </div>
     );
