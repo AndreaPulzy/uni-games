@@ -74,10 +74,10 @@ export class Room {
         return { player: p };
       }
     }
-    if (this.phase !== 'lobby') return { error: 'Partita gia iniziata' };
+    if (this.phase !== 'lobby') return { error: 'Partita già iniziata' };
     if (this.players.length >= MAX_PLAYERS) return { error: `Massimo ${MAX_PLAYERS} giocatori` };
     if (this.players.some((p) => p.name.toLowerCase() === clean.toLowerCase()))
-      return { error: 'Nome gia preso' };
+      return { error: 'Nome già preso' };
 
     const idx = this.players.length;
     const player: Player = {
@@ -217,7 +217,7 @@ export class Room {
   /* ------------------------------- partita ------------------------------- */
 
   start(settings?: Partial<RoomSettings>): Result {
-    if (this.phase !== 'lobby') return { ok: false, error: 'Partita gia in corso' };
+    if (this.phase !== 'lobby') return { ok: false, error: 'Partita già in corso' };
     const applied = this.updateSettings(settings);
     if (!applied.ok) return applied;
 
@@ -269,7 +269,7 @@ export class Room {
     const factory = this.deps.registry[id];
     if (!factory) {
       // gioco non implementato: salta il round senza rompere la partita
-      this.deps.toast(this.code, null, 'bad', `${gameDef(id).title} non e ancora disponibile`);
+      this.deps.toast(this.code, null, 'bad', `${gameDef(id).title} non è ancora disponibile`);
       this.nextRound();
       return;
     }

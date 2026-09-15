@@ -75,7 +75,7 @@ export function GhostPlay() {
         <h2>{priv.voteQuestion}</h2>
         <div className="row" style={{ gap: 12, width: '100%' }}>
           <button className="btn btn-primary grow btn-lg" onClick={() => emit('game:action', { type: 'vote', payload: { yes: true } })}>
-            Si, esiste
+            Sì, esiste
           </button>
           <button className="btn btn-hot grow btn-lg" onClick={() => emit('game:action', { type: 'vote', payload: { yes: false } })}>
             No, inventata

@@ -37,7 +37,7 @@ export function ImpostoreParolaTV({ room }: { room: RoomState }) {
       {pub.phase === 'discussion' && (
         <ImpBanner
           kicker="Discussione libera"
-          title="Chi non c entra niente?"
+          title="Chi non c'entra niente?"
           sub="Parlatene a voce, poi passate alla votazione."
           action={<button className="btn btn-primary btn-lg" onClick={() => advance(room)}>Si vota</button>}
         />
@@ -46,7 +46,7 @@ export function ImpostoreParolaTV({ room }: { room: RoomState }) {
       {pub.phase === 'guess' && (
         <ImpBanner
           kicker="Ultima chance"
-          title="L impostore sta provando a indovinare"
+          title="L'impostore sta provando a indovinare"
           sub="Se ci azzecca, si riprende una bella fetta di punti."
         />
       )}

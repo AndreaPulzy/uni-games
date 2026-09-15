@@ -68,10 +68,10 @@ export class Top10Game extends MiniGame {
       // distinguere "gia presa" da "non c'e" evita di far sembrare l'una l'altra
       const already = this.list.voci.findIndex((v, i) => this.found.has(i) && matches(v));
       if (already >= 0) {
-        this.ctx.toast(null, 'bad', `${guess} era gia stata trovata`);
+        this.ctx.toast(null, 'bad', `${guess} era già stata trovata`);
       } else {
         this.misses.push({ team: team.id, guess });
-        this.ctx.toast(null, 'bad', `${guess} non e in classifica`);
+        this.ctx.toast(null, 'bad', `${guess} non è in classifica`);
       }
     }
 

@@ -54,7 +54,7 @@ export const CONNECTIONS: ConnPuzzle[] = [
       { name: 'Semi delle carte', level: 1, words: ['CUORI', 'PICCHE', 'FIORI', 'QUADRI'] },
       { name: 'Giochi di carte', level: 2, words: ['SCOPA', 'BRISCOLA', 'TRESETTE', 'RAMINO'] },
       { name: 'Attrezzi da pulizia', level: 3, words: ['SECCHIO', 'STRACCIO', 'PALETTA', 'SPUGNA'] },
-      { name: 'Opere di Michelangelo', level: 4, words: ['DAVIDE', 'PIETA', 'MOSE', 'GIUDIZIO'] },
+      { name: 'Opere di Michelangelo', level: 4, words: ['DAVIDE', 'PIETÀ', 'MOSÈ', 'GIUDIZIO'] },
     ],
   },
   {
@@ -81,7 +81,7 @@ export const CONNECTIONS: ConnPuzzle[] = [
       { name: 'Cotture', level: 1, words: ['VAPORE', 'GRIGLIA', 'FORNO', 'FRITTURA'] },
       { name: 'Formaggi italiani', level: 2, words: ['ASIAGO', 'TALEGGIO', 'PECORINO', 'FONTINA'] },
       { name: 'Erbe aromatiche', level: 3, words: ['SALVIA', 'TIMO', 'ORIGANO', 'MAGGIORANA'] },
-      { name: 'Sinonimi di sapore', level: 4, words: ['GUSTO', 'AROMA', 'RETROGUSTO', 'SAPIDITA'] },
+      { name: 'Sinonimi di sapore', level: 4, words: ['GUSTO', 'AROMA', 'RETROGUSTO', 'SAPIDITÀ'] },
     ],
   },
   {
@@ -114,7 +114,7 @@ export const CONNECTIONS: ConnPuzzle[] = [
   {
     id: 'dolci-isole',
     groups: [
-      { name: 'Dolci italiani', level: 1, words: ['TIRAMISU', 'CANNOLO', 'PANNACOTTA', 'ZEPPOLA'] },
+      { name: 'Dolci italiani', level: 1, words: ['TIRAMISÙ', 'CANNOLO', 'PANNACOTTA', 'ZEPPOLA'] },
       { name: 'Dolci natalizi', level: 2, words: ['PANETTONE', 'PANDORO', 'TORRONE', 'STRUFFOLI'] },
       { name: 'Vulcani', level: 3, words: ['ETNA', 'STROMBOLI', 'VESUVIO', 'KRAKATOA'] },
       { name: 'Isole italiane', level: 4, words: ['ELBA', 'CAPRI', 'ISCHIA', 'PANTELLERIA'] },
@@ -134,7 +134,7 @@ export const CONNECTIONS: ConnPuzzle[] = [
     groups: [
       { name: 'Versi di animali', level: 1, words: ['MUGGITO', 'RAGLIO', 'NITRITO', 'BELATO'] },
       { name: 'Percussioni', level: 2, words: ['TAMBURO', 'TIMPANO', 'PIATTI', 'XILOFONO'] },
-      { name: 'Parti dell orecchio', level: 3, words: ['MARTELLO', 'INCUDINE', 'STAFFA', 'COCLEA'] },
+      { name: "Parti dell'orecchio", level: 3, words: ['MARTELLO', 'INCUDINE', 'STAFFA', 'COCLEA'] },
       { name: 'Cose che si battono', level: 4, words: ['RECORD', 'MONETA', 'CIGLIA', 'BANDIERA'] },
     ],
   },
@@ -151,7 +151,7 @@ export const CONNECTIONS: ConnPuzzle[] = [
     id: 'scuola',
     groups: [
       { name: 'Materie scolastiche', level: 1, words: ['STORIA', 'GEOGRAFIA', 'CHIMICA', 'FILOSOFIA'] },
-      { name: 'Dentro l astuccio', level: 2, words: ['GOMMA', 'TEMPERINO', 'RIGHELLO', 'EVIDENZIATORE'] },
+      { name: "Dentro l'astuccio", level: 2, words: ['GOMMA', 'TEMPERINO', 'RIGHELLO', 'EVIDENZIATORE'] },
       { name: 'Parti di un libro', level: 3, words: ['COPERTINA', 'PREFAZIONE', 'APPENDICE', 'RILEGATURA'] },
       { name: 'Dita della mano', level: 4, words: ['POLLICE', 'INDICE', 'MIGNOLO', 'ANULARE'] },
     ],
@@ -187,9 +187,9 @@ export const CONNECTIONS: ConnPuzzle[] = [
     id: 'citta',
     groups: [
       { name: 'Capitali europee', level: 1, words: ['LISBONA', 'VIENNA', 'PRAGA', 'ATENE'] },
-      { name: 'Citta degli Stati Uniti', level: 2, words: ['BOSTON', 'DENVER', 'SEATTLE', 'PORTLAND'] },
-      { name: 'Citta giapponesi', level: 3, words: ['KYOTO', 'OSAKA', 'NAGOYA', 'SAPPORO'] },
-      { name: 'Citta italiane sul mare', level: 4, words: ['GENOVA', 'BARI', 'TRIESTE', 'RIMINI'] },
+      { name: 'Città degli Stati Uniti', level: 2, words: ['BOSTON', 'DENVER', 'SEATTLE', 'PORTLAND'] },
+      { name: 'Città giapponesi', level: 3, words: ['KYOTO', 'OSAKA', 'NAGOYA', 'SAPPORO'] },
+      { name: 'Città italiane sul mare', level: 4, words: ['GENOVA', 'BARI', 'TRIESTE', 'RIMINI'] },
     ],
   },
   {

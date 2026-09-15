@@ -113,7 +113,7 @@ export class FabbricaMemeGame extends MiniGame {
       raw,
       detail,
       reveal: [
-        bestVotes > 0 ? `Meme dell anno: ${best!.name}` : 'Nessun voto assegnato',
+        bestVotes > 0 ? `Meme dell'anno: ${best!.name}` : 'Nessun voto assegnato',
         this.template.scena,
       ],
     });

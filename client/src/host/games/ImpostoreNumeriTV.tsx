@@ -45,7 +45,7 @@ export function ImpostoreNumeriTV({ room }: { room: RoomState }) {
 
       {pub.phase === 'result' && pub.domandaFalsa && (
         <div className="panel imp-banner">
-          <div className="kicker">All impostore era stato chiesto</div>
+          <div className="kicker">All'impostore era stato chiesto</div>
           <div className="question-big neon-pink">{pub.domandaFalsa}</div>
         </div>
       )}

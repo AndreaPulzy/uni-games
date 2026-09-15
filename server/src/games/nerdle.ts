@@ -92,7 +92,7 @@ export class NerdleGame extends MiniGame {
       detail,
       reveal: [
         `L'equazione era ${this.target}`,
-        winners.length ? `Primo a trovarla: ${winners[0].name}` : 'Nessuno ci e arrivato',
+        winners.length ? `Primo a trovarla: ${winners[0].name}` : 'Nessuno ci è arrivato',
       ],
     });
   }

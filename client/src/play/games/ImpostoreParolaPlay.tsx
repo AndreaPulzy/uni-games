@@ -24,7 +24,7 @@ export function ImpostoreParolaPlay() {
   const roleCard = (
     <div className={`secret-card${priv.isImpostor ? ' impostor' : ''}`}>
       <div className="lbl">{priv.isImpostor ? 'Il tuo ruolo' : 'La parola segreta'}</div>
-      <div className="val">{priv.isImpostor ? 'SEI L IMPOSTORE' : priv.parola}</div>
+      <div className="val">{priv.isImpostor ? "SEI L'IMPOSTORE" : priv.parola}</div>
     </div>
   );
 
@@ -48,7 +48,7 @@ export function ImpostoreParolaPlay() {
               disabled={!clue.trim()}
               onClick={() => { emit('game:action', { type: 'clue', payload: { word: clue.trim() } }); setClue(''); }}
             >
-              Dai l indizio
+              Dai l'indizio
             </button>
           </>
         ) : (
@@ -65,7 +65,7 @@ export function ImpostoreParolaPlay() {
       <div className="col grow" style={{ justifyContent: 'center', gap: 18 }}>
         {roleCard}
         <p className="dim center" style={{ textAlign: 'center' }}>
-          Discussione libera. {priv.isImpostor ? 'Reggi il bluff.' : 'Trova chi non c entra.'}
+          Discussione libera. {priv.isImpostor ? 'Reggi il bluff.' : "Trova chi non c'entra."}
         </p>
       </div>
     );
@@ -99,7 +99,7 @@ export function ImpostoreParolaPlay() {
         </button>
       </div>
     ) : (
-      <WaitingPanel title="L impostore prova a indovinare" sub="Incrociate le dita." />
+      <WaitingPanel title="L'impostore prova a indovinare" sub="Incrociate le dita." />
     );
   }
 

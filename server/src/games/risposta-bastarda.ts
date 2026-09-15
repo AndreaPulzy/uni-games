@@ -160,7 +160,7 @@ export class RispostaBastardaGame extends MiniGame {
       raw,
       detail,
       reveal: [
-        best ? `${best.name} ha fatto ridere di piu` : 'Nessun vincitore',
+        best ? `${best.name} ha fatto ridere di più` : 'Nessun vincitore',
         this.plein.size ? `PLEIN per ${[...this.plein].map((id) => this.ctx.player(id)?.name).join(', ')}` : '',
       ].filter(Boolean),
     });

@@ -5,6 +5,10 @@ import { TABOO, INTESA, MIMO } from '../server/src/data/squadre.ts';
 import { TOP10 } from '../server/src/data/top10.ts';
 import { PAROLE_SEGRETE, DOMANDE_NUMERICHE } from '../server/src/data/impostore.ts';
 import { PROMPT_BASTARDI, MEME_TEMPLATES } from '../server/src/data/prompts.ts';
+import { QUIZ } from '../server/src/data/quiz.ts';
+import { EMOJI_PUZZLES } from '../server/src/data/emoji.ts';
+import { INDIZIO_CARDS } from '../server/src/data/indizio.ts';
+import { PAROLE_DISEGNO } from '../server/src/data/disegni.ts';
 import { SOLUTION_LIST } from '../server/src/data/words-it.ts';
 import { WORDS_5, ALL_WORDS, isWord5, isWord, hasPrefix } from '../server/src/data/dictionary.ts';
 
@@ -112,6 +116,54 @@ check('id dei meme univoci', new Set(MEME_TEMPLATES.map((m) => m.id)).size === M
 check('ogni meme ha scena, art ed etichette',
   MEME_TEMPLATES.every((m) => m.scena && m.art && m.topLabel && m.bottomLabel));
 console.log(`  Risposta Bastarda: ${PROMPT_BASTARDI.length} prompt · Meme: ${MEME_TEMPLATES.length} template`);
+
+/* ------------------------------ Quiz lampo ------------------------------ */
+
+// NFKD trasforma anche gli indici in cifre: H₂O e H₂O₂ devono restare diverse
+const plainNorm = (s: string) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+for (const q of QUIZ) {
+  const label = `quiz "${q.domanda.slice(0, 40)}…"`;
+  check(`${label}: finisce col punto interrogativo`, q.domanda.trim().endsWith('?'));
+  const opts = [q.giusta, ...q.sbagliate].map(plainNorm);
+  check(`${label}: quattro risposte tutte diverse`, new Set(opts).size === 4, [q.giusta, ...q.sbagliate].join(' / '));
+}
+check('nessuna domanda del quiz ripetuta', new Set(QUIZ.map((q) => plainNorm(q.domanda))).size === QUIZ.length);
+check('abbastanza domande per molte partite', QUIZ.length >= 60, `${QUIZ.length}`);
+console.log(`  Quiz lampo: ${QUIZ.length} domande in ${new Set(QUIZ.map((q) => q.categoria)).size} categorie`);
+
+/* ------------------------------- Emoji ------------------------------- */
+
+for (const e of EMOJI_PUZZLES) {
+  check(`emoji "${e.titolo}": sequenza presente`, [...e.emoji].length >= 2);
+  check(`emoji "${e.titolo}": tipo valido`, e.tipo === 'Film' || e.tipo === 'Serie TV');
+}
+const emojiTitles = EMOJI_PUZZLES.map((e) => plainNorm(e.titolo));
+check('nessun titolo emoji ripetuto', new Set(emojiTitles).size === emojiTitles.length,
+  emojiTitles.filter((t, i) => emojiTitles.indexOf(t) !== i).join(', '));
+check('nessuna sequenza emoji ripetuta', new Set(EMOJI_PUZZLES.map((e) => e.emoji)).size === EMOJI_PUZZLES.length);
+const emojiAliasClash = EMOJI_PUZZLES.flatMap((e) =>
+  (e.alias ?? []).filter((a) => EMOJI_PUZZLES.some((o) => o !== e && plainNorm(o.titolo) === plainNorm(a))));
+check('nessun alias emoji punta a un altro titolo', emojiAliasClash.length === 0, emojiAliasClash.join(', '));
+console.log(`  Emoji: ${EMOJI_PUZZLES.filter((e) => e.tipo === 'Film').length} film, ${EMOJI_PUZZLES.filter((e) => e.tipo === 'Serie TV').length} serie TV`);
+
+/* ---------------------------- Indizio Secco ---------------------------- */
+
+const indizioWords = INDIZIO_CARDS.map((c) => plainNorm(c.parola));
+check('nessuna carta di Indizio Secco ripetuta', new Set(indizioWords).size === indizioWords.length,
+  indizioWords.filter((t, i) => indizioWords.indexOf(t) !== i).join(', '));
+check('abbastanza carte per Indizio Secco', INDIZIO_CARDS.length >= 80, `${INDIZIO_CARDS.length}`);
+console.log(`  Indizio Secco: ${INDIZIO_CARDS.length} carte`);
+
+/* -------------------------- Disegna e indovina -------------------------- */
+
+const drawWords = PAROLE_DISEGNO.map((d) => plainNorm(d.parola));
+check('nessuna parola da disegnare ripetuta', new Set(drawWords).size === drawWords.length,
+  drawWords.filter((t, i) => drawWords.indexOf(t) !== i).join(', '));
+const drawAliasClash = PAROLE_DISEGNO.flatMap((d) =>
+  (d.alias ?? []).filter((a) => PAROLE_DISEGNO.some((o) => o !== d && plainNorm(o.parola) === plainNorm(a))));
+check('nessun sinonimo di disegno coincide con un altra parola', drawAliasClash.length === 0, drawAliasClash.join(', '));
+console.log(`  Disegna e indovina: ${PAROLE_DISEGNO.length} parole`);
 
 console.log(failures === 0 ? '\n  DATI OK\n' : `\n  ${failures} PROBLEMI NEI DATI\n`);
 process.exit(failures === 0 ? 0 : 1);

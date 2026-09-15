@@ -113,7 +113,7 @@ export class GhostGame extends MiniGame {
       this.sequence = next;
       this.lastLetterBy = playerId;
       this.log.push(`${this.nameOf(playerId)} chiude ${next}`);
-      return this.loseHand(playerId, `${next} e una parola compiuta`);
+      return this.loseHand(playerId, `${next} è una parola compiuta`);
     }
 
     this.sequence = next;
@@ -125,7 +125,7 @@ export class GhostGame extends MiniGame {
   private onChallenge(playerId: PlayerId): void {
     if (this.mode !== 'letter' || playerId !== this.currentId) return;
     if (!this.lastLetterBy || this.sequence.length === 0)
-      return this.ctx.toast(playerId, 'bad', 'Non c e ancora nulla da contestare');
+      return this.ctx.toast(playerId, 'bad', "Non c'è ancora nulla da contestare");
 
     this.challenge = { challenger: playerId, challenged: this.lastLetterBy };
     this.mode = 'defend';
@@ -141,10 +141,10 @@ export class GhostGame extends MiniGame {
     if (this.sequence.length < MIN_WORD)
       return this.ctx.toast(playerId, 'bad', `Servono almeno ${MIN_WORD} lettere`);
 
-    if (isWord(this.sequence)) return this.loseHand(this.lastLetterBy, `${this.sequence} e una parola compiuta`);
+    if (isWord(this.sequence)) return this.loseHand(this.lastLetterBy, `${this.sequence} è una parola compiuta`);
 
     this.openVote({
-      question: `"${this.sequence}" e una parola italiana compiuta?`,
+      question: `"${this.sequence}" è una parola italiana compiuta?`,
       loserIfYes: this.lastLetterBy,
       loserIfNo: playerId,
       exclude: [playerId, this.lastLetterBy],
@@ -176,7 +176,7 @@ export class GhostGame extends MiniGame {
   private openVote(o: { question: string; loserIfYes: PlayerId; loserIfNo: PlayerId; exclude: PlayerId[] }): void {
     const eligible = this.alive.filter((id) => !o.exclude.includes(id));
     // con pochissimi giocatori nessuno resta a votare: decide il dizionario, gia' consultato
-    if (eligible.length === 0) return this.loseHand(o.loserIfNo, 'Nessuno puo votare: vale il dizionario');
+    if (eligible.length === 0) return this.loseHand(o.loserIfNo, 'Nessuno può votare: vale il dizionario');
 
     this.vote = { question: o.question, loserIfYes: o.loserIfYes, loserIfNo: o.loserIfNo, eligible, answers: new Map() };
     this.mode = 'vote';
@@ -201,7 +201,7 @@ export class GhostGame extends MiniGame {
     const loser = said ? this.vote.loserIfYes : this.vote.loserIfNo;
     const q = this.vote.question;
     this.vote = null;
-    this.loseHand(loser, `Il gruppo ha detto ${said ? 'SI' : 'NO'} — ${q}`);
+    this.loseHand(loser, `Il gruppo ha detto ${said ? 'SÌ' : 'NO'} — ${q}`);
   }
 
   /* ------------------------------ esito manche ---------------------------- */

@@ -35,9 +35,9 @@ export class ImpostoreNumeriGame extends ImpostorBase {
 
   protected revealLines(): string[] {
     const impName = this.ctx.player(this.impostorId)?.name ?? '???';
-    const esito = this.impostorFound ? `${impName} e stato smascherato` : `${impName} l ha fatta franca`;
+    const esito = this.impostorFound ? `${impName} è stato smascherato` : `${impName} l'ha fatta franca`;
     return [
-      `L impostore era ${impName} — ${esito}`,
+      `L'impostore era ${impName} — ${esito}`,
       `A lui era stato chiesto: "${this.domanda.falsa}"`,
     ];
   }

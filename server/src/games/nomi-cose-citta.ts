@@ -3,7 +3,7 @@ import { MiniGame, type GameContext } from '../minigame.ts';
 import { scoreNomiCoseCitta, NCC_UNIQUE, NCC_DUPLICATE } from '../../../shared/src/scoring.ts';
 import { isWord } from '../data/dictionary.ts';
 
-export const CATEGORIE = ['Nome', 'Cosa', 'Citta', 'Animale', 'Mestiere', 'Cibo'] as const;
+export const CATEGORIE = ['Nome', 'Cosa', 'Città', 'Animale', 'Mestiere', 'Cibo'] as const;
 /** Niente lettere impraticabili in italiano. */
 const LETTERE = 'ABCDEFGILMNOPRSTV';
 const FILL_MS = 180_000;

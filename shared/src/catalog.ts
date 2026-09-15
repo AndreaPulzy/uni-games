@@ -30,7 +30,7 @@ export const GAMES: GameDef[] = [
     rules: [
       'Stessa parola segreta per tutti, 6 tentativi a testa.',
       'Verde: lettera giusta al posto giusto. Giallo: presente altrove.',
-      'Piu sei veloce e meno tentativi usi, piu punti prendi.',
+      'Più sei veloce e meno tentativi usi, più punti prendi.',
     ],
     durationSec: 90,
     ready: true,
@@ -93,7 +93,7 @@ export const GAMES: GameDef[] = [
     rules: [
       'Tutti ricevono la stessa parola segreta. Tranne uno.',
       'A turno, un solo indizio a testa: preciso ma non troppo.',
-      "Poi discussione e votazione. Se beccate l'impostore, lui puo ancora indovinare.",
+      "Poi discussione e votazione. Se beccate l'impostore, lui può ancora indovinare.",
     ],
     durationSec: null,
     ready: true,
@@ -115,7 +115,7 @@ export const GAMES: GameDef[] = [
   },
   {
     id: 'nomi-cose-citta',
-    title: 'Nomi Cose Citta',
+    title: 'Nomi Cose Città',
     category: 'untimed',
     minPlayers: 3,
     maxPlayers: 16,
@@ -134,7 +134,7 @@ export const GAMES: GameDef[] = [
     category: 'untimed',
     minPlayers: 4,
     maxPlayers: 12,
-    tagline: 'Vince chi fa piu ridere',
+    tagline: 'Vince chi fa più ridere',
     rules: [
       'Ogni duello: due giocatori, stesso prompt assurdo.',
       'Le due risposte compaiono anonime in TV.',
@@ -153,7 +153,7 @@ export const GAMES: GameDef[] = [
     rules: [
       'Un template compare sulla TV.',
       'Scrivi testo sopra e sotto dal telefono.',
-      'Galleria e votazione: il meme piu votato vince la manche.',
+      'Galleria e votazione: il meme più votato vince la manche.',
     ],
     durationSec: null,
     ready: true,

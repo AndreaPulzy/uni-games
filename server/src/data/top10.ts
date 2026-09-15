@@ -17,7 +17,7 @@ export const TOP10: Top10List[] = [
   /* ------------------------------ geografia ------------------------------ */
   {
     id: 'stati-superficie',
-    titolo: 'I 10 stati piu grandi del mondo per superficie',
+    titolo: 'I 10 stati più grandi del mondo per superficie',
     voci: [
       { nome: 'Russia' }, { nome: 'Canada' }, { nome: 'Cina' },
       { nome: 'Stati Uniti', alias: ['USA', 'America'] }, { nome: 'Brasile' },
@@ -27,7 +27,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'stati-popolosi',
-    titolo: 'I 10 paesi piu popolosi del mondo',
+    titolo: 'I 10 paesi più popolosi del mondo',
     volatile: true,
     voci: [
       { nome: 'India' }, { nome: 'Cina' }, { nome: 'Stati Uniti', alias: ['USA', 'America'] },
@@ -37,9 +37,9 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'stati-piccoli',
-    titolo: 'I 10 stati piu piccoli del mondo',
+    titolo: 'I 10 stati più piccoli del mondo',
     voci: [
-      { nome: 'Vaticano', alias: ['Citta del Vaticano'] }, { nome: 'Monaco' },
+      { nome: 'Vaticano', alias: ['Città del Vaticano'] }, { nome: 'Monaco' },
       { nome: 'Nauru' }, { nome: 'Tuvalu' }, { nome: 'San Marino' },
       { nome: 'Liechtenstein' }, { nome: 'Isole Marshall' },
       { nome: 'Saint Kitts e Nevis', alias: ['Saint Kitts'] }, { nome: 'Maldive' }, { nome: 'Malta' },
@@ -47,7 +47,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'montagne',
-    titolo: 'Le 10 montagne piu alte del mondo',
+    titolo: 'Le 10 montagne più alte del mondo',
     voci: [
       { nome: 'Everest' }, { nome: 'K2' }, { nome: 'Kangchenjunga' },
       { nome: 'Lhotse' }, { nome: 'Makalu' }, { nome: 'Cho Oyu' },
@@ -57,7 +57,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'fiumi-mondo',
-    titolo: 'I 10 fiumi piu lunghi del mondo',
+    titolo: 'I 10 fiumi più lunghi del mondo',
     voci: [
       { nome: 'Nilo' }, { nome: 'Rio delle Amazzoni', alias: ['Amazzoni', 'Amazzonia'] },
       { nome: 'Yangtze', alias: ['Fiume Azzurro'] }, { nome: 'Mississippi' },
@@ -67,7 +67,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'fiumi-italia',
-    titolo: 'I 10 fiumi piu lunghi d Italia',
+    titolo: "I 10 fiumi più lunghi d'Italia",
     voci: [
       { nome: 'Po' }, { nome: 'Adige' }, { nome: 'Tevere' }, { nome: 'Adda' },
       { nome: 'Oglio' }, { nome: 'Tanaro' }, { nome: 'Ticino' }, { nome: 'Arno' },
@@ -76,7 +76,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'isole',
-    titolo: 'Le 10 isole piu grandi del mondo',
+    titolo: 'Le 10 isole più grandi del mondo',
     voci: [
       { nome: 'Groenlandia' }, { nome: 'Nuova Guinea' }, { nome: 'Borneo' },
       { nome: 'Madagascar' }, { nome: 'Baffin' }, { nome: 'Sumatra' },
@@ -86,7 +86,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'deserti',
-    titolo: 'I 10 deserti piu grandi del mondo',
+    titolo: 'I 10 deserti più grandi del mondo',
     voci: [
       { nome: 'Antartico' }, { nome: 'Artico' }, { nome: 'Sahara' },
       { nome: 'Arabico' }, { nome: 'Gobi' }, { nome: 'Kalahari' },
@@ -96,7 +96,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'oceani',
-    titolo: 'I 5 oceani della Terra, dal piu grande',
+    titolo: 'I 5 oceani della Terra, dal più grande',
     voci: [
       { nome: 'Pacifico' }, { nome: 'Atlantico' }, { nome: 'Indiano' },
       { nome: 'Antartico', alias: ['Australe'] }, { nome: 'Artico' },
@@ -106,7 +106,7 @@ export const TOP10: Top10List[] = [
   /* -------------------------------- Italia -------------------------------- */
   {
     id: 'citta-italiane',
-    titolo: 'Le 10 citta italiane piu popolose',
+    titolo: 'Le 10 città italiane più popolose',
     voci: [
       { nome: 'Roma' }, { nome: 'Milano' }, { nome: 'Napoli' }, { nome: 'Torino' },
       { nome: 'Palermo' }, { nome: 'Genova' }, { nome: 'Bologna' },
@@ -115,7 +115,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'regioni-popolose',
-    titolo: 'Le 10 regioni italiane piu popolose',
+    titolo: 'Le 10 regioni italiane più popolose',
     voci: [
       { nome: 'Lombardia' }, { nome: 'Lazio' }, { nome: 'Campania' },
       { nome: 'Sicilia' }, { nome: 'Veneto' }, { nome: 'Emilia-Romagna', alias: ['Emilia Romagna'] },
@@ -124,7 +124,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'regioni-estese',
-    titolo: 'Le 10 regioni italiane piu estese',
+    titolo: 'Le 10 regioni italiane più estese',
     voci: [
       { nome: 'Sicilia' }, { nome: 'Piemonte' }, { nome: 'Sardegna' },
       { nome: 'Lombardia' }, { nome: 'Toscana' }, { nome: 'Emilia-Romagna', alias: ['Emilia Romagna'] },
@@ -133,7 +133,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'scudetti',
-    titolo: 'Le squadre con piu scudetti in Serie A',
+    titolo: 'Le squadre con più scudetti in Serie A',
     voci: [
       { nome: 'Juventus' }, { nome: 'Inter' }, { nome: 'Milan' }, { nome: 'Genoa' },
       { nome: 'Torino' }, { nome: 'Bologna' }, { nome: 'Pro Vercelli' },
@@ -142,7 +142,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'vulcani-italia',
-    titolo: 'I vulcani attivi d Italia',
+    titolo: "I vulcani attivi d'Italia",
     voci: [
       { nome: 'Etna' }, { nome: 'Stromboli' }, { nome: 'Vesuvio' },
       { nome: 'Campi Flegrei' }, { nome: 'Vulcano' }, { nome: 'Pantelleria' },
@@ -153,7 +153,7 @@ export const TOP10: Top10List[] = [
   /* -------------------------------- sport --------------------------------- */
   {
     id: 'mondiali',
-    titolo: 'Le nazionali con piu Mondiali di calcio vinti',
+    titolo: 'Le nazionali con più Mondiali di calcio vinti',
     voci: [
       { nome: 'Brasile' }, { nome: 'Germania' }, { nome: 'Italia' },
       { nome: 'Argentina' }, { nome: 'Francia' }, { nome: 'Uruguay' },
@@ -162,7 +162,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'champions',
-    titolo: 'I club con piu Coppe dei Campioni / Champions League',
+    titolo: 'I club con più Coppe dei Campioni / Champions League',
     volatile: true,
     voci: [
       { nome: 'Real Madrid' }, { nome: 'Milan' }, { nome: 'Bayern Monaco', alias: ['Bayern'] },
@@ -173,7 +173,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'olimpiadi',
-    titolo: 'I paesi con piu medaglie olimpiche estive di sempre',
+    titolo: 'I paesi con più medaglie olimpiche estive di sempre',
     volatile: true,
     voci: [
       { nome: 'Stati Uniti', alias: ['USA', 'America'] }, { nome: 'Unione Sovietica', alias: ['URSS'] },
@@ -186,7 +186,7 @@ export const TOP10: Top10List[] = [
   /* ------------------------------- scienza -------------------------------- */
   {
     id: 'pianeti',
-    titolo: 'I pianeti del sistema solare dal piu grande al piu piccolo',
+    titolo: 'I pianeti del sistema solare dal più grande al più piccolo',
     voci: [
       { nome: 'Giove' }, { nome: 'Saturno' }, { nome: 'Urano' }, { nome: 'Nettuno' },
       { nome: 'Terra' }, { nome: 'Venere' }, { nome: 'Marte' }, { nome: 'Mercurio' },
@@ -194,7 +194,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'elementi-crosta',
-    titolo: 'Gli elementi piu abbondanti nella crosta terrestre',
+    titolo: 'Gli elementi più abbondanti nella crosta terrestre',
     voci: [
       { nome: 'Ossigeno' }, { nome: 'Silicio' }, { nome: 'Alluminio' },
       { nome: 'Ferro' }, { nome: 'Calcio' }, { nome: 'Sodio' },
@@ -203,7 +203,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'animali-veloci',
-    titolo: 'Gli animali terrestri piu veloci',
+    titolo: 'Gli animali terrestri più veloci',
     voci: [
       { nome: 'Ghepardo' }, { nome: 'Antilocapra' }, { nome: 'Springbok' },
       { nome: 'Gnu' }, { nome: 'Leone' }, { nome: 'Gazzella' },
@@ -214,7 +214,7 @@ export const TOP10: Top10List[] = [
   /* -------------------------------- cultura -------------------------------- */
   {
     id: 'lingue',
-    titolo: 'Le 10 lingue con piu madrelingua al mondo',
+    titolo: 'Le 10 lingue con più madrelingua al mondo',
     volatile: true,
     voci: [
       { nome: 'Cinese mandarino', alias: ['Cinese', 'Mandarino'] }, { nome: 'Spagnolo' },
@@ -225,7 +225,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'paesi-visitati',
-    titolo: 'I 10 paesi piu visitati al mondo',
+    titolo: 'I 10 paesi più visitati al mondo',
     volatile: true,
     voci: [
       { nome: 'Francia' }, { nome: 'Spagna' }, { nome: 'Stati Uniti', alias: ['USA', 'America'] },
@@ -247,7 +247,7 @@ export const TOP10: Top10List[] = [
   },
   {
     id: 'capitali-europee',
-    titolo: 'Le capitali europee piu popolose',
+    titolo: 'Le capitali europee più popolose',
     volatile: true,
     voci: [
       { nome: 'Mosca' }, { nome: 'Londra' }, { nome: 'Berlino' },

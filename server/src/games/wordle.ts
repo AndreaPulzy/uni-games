@@ -63,7 +63,7 @@ export class WordleGame extends MiniGame {
       return this.ctx.toast(playerId, 'bad', 'Solo lettere, niente accenti');
     }
     if (!isWord5(guess)) {
-      return this.ctx.toast(playerId, 'bad', `"${guess}" non e una parola italiana`);
+      return this.ctx.toast(playerId, 'bad', `"${guess}" non è una parola italiana`);
     }
 
     const marks = evaluate(guess, this.target);

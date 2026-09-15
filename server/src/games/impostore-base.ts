@@ -184,19 +184,19 @@ export abstract class ImpostorBase extends MiniGame {
         raw[p.id] = isImp ? S.impostoreLibero : S.innocentiSconfitti;
         detail[p.id] = isImp
           ? 'Impostore mai scoperto'
-          : votedRight ? 'Aveva capito, ma il gruppo no' : 'Ingannato dall impostore';
+          : votedRight ? 'Aveva capito, ma il gruppo no' : "Ingannato dall'impostore";
       } else if (this.redeemed) {
         raw[p.id] = isImp ? S.impostoreRiscattato
           : votedRight ? S.riscattoInnocenteCheHaVotatoBene : S.riscattoInnocenteCheHaSbagliato;
         detail[p.id] = isImp
           ? 'Beccato, ma ha indovinato la parola'
-          : votedRight ? 'Ha smascherato l impostore' : 'Ha votato la persona sbagliata';
+          : votedRight ? "Ha smascherato l'impostore" : 'Ha votato la persona sbagliata';
       } else {
         raw[p.id] = isImp ? S.impostoreBeccato
           : votedRight ? S.innocenteCheHaVotatoBene : S.innocenteCheHaSbagliatoVoto;
         detail[p.id] = isImp
           ? 'Smascherato'
-          : votedRight ? 'Ha smascherato l impostore' : 'Ha votato la persona sbagliata';
+          : votedRight ? "Ha smascherato l'impostore" : 'Ha votato la persona sbagliata';
       }
     }
 

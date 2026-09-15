@@ -47,7 +47,8 @@ export class ImpostoreParolaGame extends ImpostorBase {
 
   /** Blocca l'indizio che contiene la parola segreta (o una sua parte lunga). */
   private isTooRevealing(word: string): boolean {
-    const norm = (s: string) => s.toLowerCase().replace(/[^a-z]/g, '');
+    // senza accenti: chi scrive "citta" deve trovare "Città"
+    const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
     const w = norm(word);
     const target = norm(this.parola);
     if (!w || !target) return false;
@@ -67,7 +68,8 @@ export class ImpostoreParolaGame extends ImpostorBase {
   protected hasGuessPhase(): boolean { return true; }
 
   protected checkGuess(answer: string): boolean {
-    const norm = (s: string) => s.toLowerCase().trim().replace(/[^a-z]/g, '');
+    // senza accenti: chi scrive "citta" deve trovare "Città"
+    const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
     return norm(answer) === norm(this.parola);
   }
 
@@ -90,11 +92,11 @@ export class ImpostoreParolaGame extends ImpostorBase {
   protected revealLines(): string[] {
     const impName = this.ctx.player(this.impostorId)?.name ?? '???';
     const esito = !this.impostorFound
-      ? `${impName} l ha fatta franca`
+      ? `${impName} l'ha fatta franca`
       : this.redeemed
-        ? `${impName} e stato beccato ma ha indovinato la parola`
-        : `${impName} e stato smascherato`;
-    return [`La parola era "${this.parola}"`, `L impostore era ${impName} — ${esito}`];
+        ? `${impName} è stato beccato ma ha indovinato la parola`
+        : `${impName} è stato smascherato`;
+    return [`La parola era "${this.parola}"`, `L'impostore era ${impName} — ${esito}`];
   }
 
   protected publicExtra() {

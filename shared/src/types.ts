@@ -8,7 +8,7 @@ export type Category = 'timed' | 'untimed' | 'team';
 
 export const CATEGORY_LABEL: Record<Category, string> = {
   timed: 'A Tempo',
-  untimed: 'Deduzione & Creativita',
+  untimed: 'Deduzione & Creatività',
   team: 'A Squadre',
 };
 

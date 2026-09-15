@@ -21,7 +21,7 @@ export function VotePanel({ candidates }: { candidates: Candidate[] }) {
   return (
     <>
       <div className="col center" style={{ gap: 4 }}>
-        <div className="kicker">Chi e l impostore?</div>
+        <div className="kicker">Chi è l'impostore?</div>
       </div>
       <div className="vote-list grow">
         {candidates.map((c) => (
