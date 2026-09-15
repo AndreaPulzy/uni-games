@@ -181,7 +181,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('host:next', (...args: unknown[]) => {
-    const { payload, cb } = splitArgs<{ expect?: string }>(args);
+    const { payload, cb } = splitArgs<{ expect?: string | null }>(args);
     const room = directedRoom(data);
     if (!room) return cb?.(NOT_DIRECTOR);
     cb?.(room.advance(payload?.expect));

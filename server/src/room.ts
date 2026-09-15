@@ -185,9 +185,10 @@ export class Room {
 
   /** "Avanti" di regia. `expect` e' l'etichetta vista sul dispositivo: se nel
    *  frattempo la TV o il regista hanno gia' fatto avanzare, il secondo tocco
-   *  non deve saltare una fase. */
-  advance(expect?: string): Result {
-    if (typeof expect === 'string' && expect !== this.directorAction) {
+   *  non deve saltare una fase. `null` vuol dire "nessuna etichetta visibile":
+   *  vale per chiudere un turno in corso, ma non scavalca il recap appena apparso. */
+  advance(expect?: string | null): Result {
+    if ((typeof expect === 'string' || expect === null) && expect !== this.directorAction) {
       return { ok: false, error: 'Già avanzato' };
     }
     if (this.phase === 'intro') this.beginPlay();

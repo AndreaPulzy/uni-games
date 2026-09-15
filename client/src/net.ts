@@ -15,7 +15,7 @@ export function emit<T = unknown>(event: string, payload?: unknown): Promise<T> 
  *  viene rimandata al server: se qualcuno ha gia' fatto avanzare la partita,
  *  il secondo tocco viene ignorato invece di saltare una fase. */
 export function advance(room: RoomState) {
-  return emit<{ ok: boolean; error?: string }>('host:next', { expect: room.directorAction ?? undefined });
+  return emit<{ ok: boolean; error?: string }>('host:next', { expect: room.directorAction });
 }
 
 /** Snapshot pubblico della stanza, aggiornato dal server. */

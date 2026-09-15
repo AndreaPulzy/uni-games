@@ -69,7 +69,9 @@ async function playOne(gameId: string): Promise<void> {
     if (!acted) {
       idle++;
       // nessuno ha piu mosse: probabilmente serve l'avanzamento dalla TV
-      if (idle % 3 === 0) await ask(host, 'host:next');
+      // con `expect` un comando partito un attimo prima che il round si chiudesse
+      // non scavalca il recap (con la latenza del server online succedeva)
+      if (idle % 3 === 0) await ask(host, 'host:next', { expect: room?.directorAction ?? null });
       await sleep(120);
     } else idle = 0;
   }

@@ -121,6 +121,12 @@ async function playRound() {
 await playRound();
 check('nel recap il pulsante dice "Prossimo minigioco"', room.directorAction === 'Prossimo minigioco', room.directorAction);
 
+// un "avanti" partito quando a schermo non c'era nessuna etichetta (turno in corso)
+// e arrivato a recap gia' comparso non deve saltarlo
+r = await ask(host, 'host:next', { expect: null });
+await sleep(200);
+check('un avanti in ritardo dal gioco non scavalca il recap', r.ok === false && room.phase === 'recap', room.phase);
+
 const tap2 = await Promise.all([
   ask(A.s, 'host:next', { expect: 'Prossimo minigioco' }),
   ask(A.s, 'host:next', { expect: 'Prossimo minigioco' }),
