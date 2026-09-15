@@ -22,6 +22,8 @@ export interface RoomDeps {
   registry: Registry;
   broadcast: (code: RoomCode) => void;
   toast: (code: RoomCode, playerId: PlayerId | null, kind: 'info'|'good'|'bad', text: string) => void;
+  /** evento rapido del minigioco verso tutta la stanza */
+  event?: (code: RoomCode, name: string, data: unknown) => void;
   /** la partita e' iniziata: restituisce l'id con cui archiviare i round */
   onStarted?: (room: Room) => number | null;
   /** un round si e' chiuso: si archivia subito, senza aspettare la fine */
@@ -383,6 +385,7 @@ export class Room {
       deadline: () => room._deadline,
       finish: (r) => room.finishRound(r),
       toast: (pid, kind, text) => room.deps.toast(room.code, pid, kind, text),
+      event: (name, data) => room.deps.event?.(room.code, name, data),
       player: (id) => room.players.find((p) => p.id === id),
       teamOf: (id) => room.teams?.find((t) => t.members.includes(id)) ?? null,
     };

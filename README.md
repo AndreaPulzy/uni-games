@@ -1,7 +1,7 @@
 # Uni Games
 
 Party game da salotto: la partita sta sulla TV, ogni giocatore usa il proprio
-telefono come controller. Tredici minigiochi divisi in tre categorie che si
+telefono come controller. Diciassette minigiochi divisi in tre categorie che si
 alternano, e una classifica sola.
 
 ```
@@ -32,15 +32,19 @@ rete, così i telefoni sulla stessa WiFi possono entrare.
 | Connections | a tempo | 2–16 | 120s, 4 errori |
 | Equazione Nascosta | a tempo | 2–16 | 120s, stile Nerdle |
 | Ghost | a tempo | 3–4 | a turni, eliminazione: vince l'ultimo in piedi |
+| Quiz lampo | a tempo | 2–16 | 8 domande da 15 secondi, conta la velocità |
+| Indovina dalle emoji | a tempo | 2–16 | film e serie TV, suggerimento a metà tempo |
 | L'Impostore | deduzione | 4–12 | indizi, discussione, voto |
 | L'Impostore coi Numeri | deduzione | 4–12 | domanda diversa per uno solo |
 | Nomi Cose Città | deduzione | 3–16 | con STOP e revisione di gruppo |
 | La Risposta Bastarda | deduzione | 4–12 | due duelli a testa |
 | Fabbrica di Meme | deduzione | 3–16 | didascalie e votazione |
+| Disegna e indovina | deduzione | 3–8 | si disegna col dito, il disegno va in diretta sulla TV |
 | Taboo | squadre | 4–16 | 60s, buzzer avversario |
 | L'Intesa Vincente | squadre | 6–12 | serve almeno 3 per squadra |
 | Mimo | squadre | 4–16 | 90s, furto finale |
 | Top 10 | squadre | 4–16 | punti ponderati 10→1 |
+| Indizio Secco | squadre | 4–16 | un indizio di una parola; se sbagli, la palla passa |
 
 Minimo **4 giocatori**, ideale **6–8**, massimo **16**. Il motore propone solo i
 giochi compatibili col numero di presenti: con 5 persone l'Intesa Vincente non
@@ -60,6 +64,14 @@ senza mouse: in quel caso la TV fa solo da schermo.
   se non rientra passa al primo giocatore collegato.
 - TV e regista possono premere "avanti" insieme: il server scarta il secondo
   tocco, quindi nessuna schermata viene saltata.
+
+## Suoni
+
+La TV ha effetti sonori generati dal browser, senza file audio: presentazione
+dei giochi, ultimi secondi del timer, risposte giuste e sbagliate, podio.
+I browser tengono l'audio spento finché non si tocca la pagina, quindi in alto
+compare **Attiva i suoni**: ha già il focus, così su una smart TV basta il
+tasto OK del telecomando. Poi lo stesso pulsante silenzia e riattiva.
 
 ## Come si contano i punti
 
@@ -85,6 +97,10 @@ Le squadre si sorteggiano a caso a ogni gioco di gruppo.
 | `server/src/data/top10.ts` | 24 classifiche |
 | `server/src/data/impostore.ts` | 103 parole segrete, 45 coppie di domande |
 | `server/src/data/prompts.ts` | 80 prompt comici, 20 template meme |
+| `server/src/data/quiz.ts` | 93 domande in 10 categorie |
+| `server/src/data/emoji.ts` | 99 film e serie TV in emoji, scritti da noi |
+| `server/src/data/indizio.ts` | 180 carte per Indizio Secco |
+| `server/src/data/disegni.ts` | 175 parole da disegnare |
 
 Il dizionario viene da [napolux/paroleitaliane](https://github.com/napolux/paroleitaliane)
 (MIT). Il Wordle accetta come tentativo **qualunque** parola italiana di cinque
@@ -110,7 +126,7 @@ npm run test:logic   # rotazione, punteggi, dati, migrazioni — non serve il se
 npm run test:live    # partite vere via WebSocket — richiede npm run dev
 ```
 
-`test:live` gioca davvero tutti e tredici i minigiochi fino al recap.
+`test:live` gioca davvero tutti e diciassette i minigiochi fino al recap.
 
 Per provare un gioco da solo, senza radunare sei persone:
 

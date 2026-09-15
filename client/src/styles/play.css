@@ -427,3 +427,40 @@
 .ncc-badge.dup { color: var(--cyan); border-color: rgba(0,229,255,.45); }
 .ncc-badge.flag { color: #ff9a9a; border-color: rgba(255,77,77,.45); }
 .ncc-badge.flag.hit { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+/* --------------------------- quiz lampo ed emoji --------------------------- */
+
+.quiz-pad { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: center; }
+.quiz-btn {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  border-radius: var(--r-md);
+  border: 2px solid var(--qc);
+  background: color-mix(in srgb, var(--qc) 14%, transparent);
+  color: var(--ink);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: .98rem;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .1s ease, opacity .2s ease;
+}
+.quiz-btn:active { transform: scale(.96); }
+.quiz-btn.picked { background: color-mix(in srgb, var(--qc) 40%, transparent); box-shadow: 0 0 30px -10px var(--qc); }
+.quiz-btn.faded { opacity: .35; }
+.quiz-btn .quiz-shape { font-size: 1.6rem; color: var(--qc); }
+.emoji-phone { font-size: 3rem; text-align: center; line-height: 1.1; }
+
+/* ---------------------------- disegna e indovina ---------------------------- */
+
+.draw-pad { width: 100%; aspect-ratio: 1; background: #fff; border-radius: var(--r-md); touch-action: none; display: block; }
+.draw-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.draw-color { width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(255,255,255,.3); cursor: pointer; padding: 0; }
+.draw-color.on { border-color: #fff; box-shadow: 0 0 0 3px var(--cyan); }
+.draw-tools .btn { padding: 8px 12px; font-size: .82rem; }

@@ -13,6 +13,10 @@ import { RispostaBastardaTV } from './games/RispostaBastardaTV.tsx';
 import { FabbricaMemeTV } from './games/FabbricaMemeTV.tsx';
 import { TabooTV, IntesaVincenteTV, MimoTV } from './games/TeamGamesTV.tsx';
 import { Top10TV } from './games/Top10TV.tsx';
+import { QuizLampoTV } from './games/QuizLampoTV.tsx';
+import { EmojiFilmTV } from './games/EmojiFilmTV.tsx';
+import { IndizioSeccoTV } from './games/IndizioSeccoTV.tsx';
+import { DisegnaTV } from './games/DisegnaTV.tsx';
 
 const SCREENS: Partial<Record<string, (p: { room: RoomState }) => JSX.Element | null>> = {
   wordle: WordleTV,
@@ -28,6 +32,10 @@ const SCREENS: Partial<Record<string, (p: { room: RoomState }) => JSX.Element | 
   'intesa-vincente': IntesaVincenteTV,
   mimo: MimoTV,
   top10: Top10TV,
+  'quiz-lampo': QuizLampoTV,
+  'emoji-film': EmojiFilmTV,
+  'indizio-secco': IndizioSeccoTV,
+  disegna: DisegnaTV,
 };
 
 export function Playing({ room }: { room: RoomState }) {

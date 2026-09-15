@@ -13,6 +13,10 @@ import { RispostaBastardaPlay } from './games/RispostaBastardaPlay.tsx';
 import { FabbricaMemePlay } from './games/FabbricaMemePlay.tsx';
 import { TabooPlay, IntesaVincentePlay, MimoPlay } from './games/TeamGamesPlay.tsx';
 import { Top10Play } from './games/Top10Play.tsx';
+import { QuizLampoPlay } from './games/QuizLampoPlay.tsx';
+import { EmojiFilmPlay } from './games/EmojiFilmPlay.tsx';
+import { IndizioSeccoPlay } from './games/IndizioSeccoPlay.tsx';
+import { DisegnaPlay } from './games/DisegnaPlay.tsx';
 
 const CONTROLLERS: Partial<Record<string, (p: { room: RoomState; me: Player }) => JSX.Element | null>> = {
   wordle: WordlePlay,
@@ -28,6 +32,10 @@ const CONTROLLERS: Partial<Record<string, (p: { room: RoomState; me: Player }) =
   'intesa-vincente': IntesaVincentePlay,
   mimo: MimoPlay,
   top10: Top10Play,
+  'quiz-lampo': QuizLampoPlay,
+  'emoji-film': EmojiFilmPlay,
+  'indizio-secco': IndizioSeccoPlay,
+  disegna: DisegnaPlay,
 };
 
 export function Controller({ room, me }: { room: RoomState; me: Player }) {

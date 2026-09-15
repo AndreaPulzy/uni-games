@@ -74,7 +74,7 @@ const burst = ['connections', 'nerdle', 'ghost', 'impostore-parola', 'impostore-
 await Promise.all(burst.map((id) => ask(A.s, 'host:settings', { settings: { toggle: id } })));
 await sleep(300);
 check('tocchi rapidi sui giochi: nessuno va perso',
-  burst.every((id) => !room.settings.excluded.includes(id)) && room.settings.excluded.length === 2,
+  burst.every((id) => !room.settings.excluded.includes(id)) && room.settings.excluded.length === excluded.length - burst.length,
   `esclusi: ${room.settings.excluded.join(', ')}`);
 await Promise.all(burst.map((id) => ask(A.s, 'host:settings', { settings: { toggle: id } })));
 await sleep(300);

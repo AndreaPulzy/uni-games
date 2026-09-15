@@ -35,8 +35,9 @@ for (const name of ['Andrea', 'Giulia', 'Marco', 'Sara']) {
 }
 
 // due round di Wordle: bastano per verificare l'archiviazione
-const excluded = ['connections','nerdle','ghost','impostore-parola','impostore-numeri',
-  'nomi-cose-citta','risposta-bastarda','fabbrica-meme','taboo','intesa-vincente','mimo','top10'];
+// tutti i giochi tranne Wordle, qualunque sia il catalogo del momento
+const { GAMES } = await import('../shared/src/catalog.ts');
+const excluded = GAMES.filter((g) => g.id !== 'wordle').map((g) => g.id);
 const st = await ask<any>(host, 'host:start', { settings: { totalRounds: 2, excluded } });
 check('partita avviata', st.ok === true, st.error ?? '');
 

@@ -1,5 +1,5 @@
 import { io, type Socket } from 'socket.io-client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { RoomState } from '@shared/types.ts';
 
 export const socket: Socket = io({ autoConnect: true, transports: ['websocket', 'polling'] });
@@ -38,6 +38,18 @@ export function usePrivate<T>(): T | null {
     return () => { socket.off('private', on); };
   }, []);
   return view;
+}
+
+/** Eventi rapidi del minigioco (per esempio i tratti del disegno in diretta).
+ *  Il gestore piu' recente viene sempre usato, senza riabbonarsi a ogni render. */
+export function useGameEvent(handler: (e: { name: string; data: any }) => void) {
+  const ref = useRef(handler);
+  ref.current = handler;
+  useEffect(() => {
+    const on = (e: { name: string; data: any }) => ref.current(e);
+    socket.on('game:event', on);
+    return () => { socket.off('game:event', on); };
+  }, []);
 }
 
 export interface ToastMsg { id: number; kind: 'info' | 'good' | 'bad'; text: string }

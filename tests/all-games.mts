@@ -93,7 +93,9 @@ async function playOne(gameId: string): Promise<void> {
   await sleep(120);
 }
 
-for (const g of GAMES) {
+// ONLY=quiz-lampo,disegna limita il giro ai giochi indicati
+const only = process.env.ONLY?.split(',').map((x) => x.trim()).filter(Boolean);
+for (const g of GAMES.filter((x) => !only?.length || only.includes(x.id))) {
   console.log(`\n— ${g.title} (${g.category})`);
   try { await playOne(g.id); }
   catch (e) { check(`${g.id}: eccezione`, false, String(e)); }

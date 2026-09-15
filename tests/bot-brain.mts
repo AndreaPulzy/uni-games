@@ -84,6 +84,34 @@ export function decide(gameId: string, bot: BotView, room: any): Move {
       return null;
     }
 
+    case 'quiz-lampo':
+      return g.phase === 'question' && g.myChoice === null
+        ? { type: 'answer', payload: { choice: Math.floor(Math.random() * 4) } }
+        : null;
+
+    case 'emoji-film':
+      // i bot non conoscono il titolo: sbagliano apposta, cosi il round si chiude in fretta
+      return g.phase === 'guess' && !g.solved && g.tries < g.maxTries
+        ? { type: 'guess', payload: { text: 'titolo a caso ' + g.tries } }
+        : null;
+
+    case 'indizio-secco':
+      if (g.myTurnToClue) return { type: 'clue', payload: { word: 'indizio' + Math.floor(Math.random() * 100000) } };
+      if (g.mustJudge) return { type: 'judge', payload: { correct: Math.random() < 0.3 } };
+      return null;
+
+    case 'disegna': {
+      if (g.isDrawer && g.phase === 'choose') return { type: 'choose', payload: { index: 0 } };
+      const k = `disegna:${g.turn}:${bot.name}`;
+      const done = perTurn.get(k) ?? 0;
+      if (done >= 2 || g.phase !== 'draw') return null;   // poi il regista chiude il turno
+      perTurn.set(k, done + 1);
+      if (g.isDrawer) {
+        return { type: 'stroke', payload: { id: done + 1, color: '#111111', size: 8, offset: 0, points: [100, 100, 500, 500, 900, 200] } };
+      }
+      return g.guessed ? null : { type: 'guess', payload: { text: 'forse ' + done } };
+    }
+
     case 'top10': {
       if (g.phase !== 'guess' || !g.myTurn) return null;
       const list = TOP10.find((l) => l.titolo === g.titolo);

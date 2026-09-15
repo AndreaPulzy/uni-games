@@ -103,6 +103,7 @@ function createRoom(): Room {
     registry,
     broadcast,
     toast: toastTo,
+    event: (code, name, data) => { io.to(`room:${code}`).emit('game:event', { name, data }); },
     onStarted: (r) => {
       try { return startMatch(r); } catch (e) { console.error('[db] startMatch', e); return null; }
     },

@@ -9,7 +9,7 @@ export function Landing() {
           </h1>
         </div>
         <p className="dim" style={{ maxWidth: 460, fontSize: '1.05rem', lineHeight: 1.6, margin: 0 }}>
-          Tredici minigiochi, una classifica sola. Apri la partita sulla TV,
+          Diciassette minigiochi, una classifica sola. Apri la partita sulla TV,
           entra col telefono, e che vinca il migliore.
         </p>
         <div className="col" style={{ gap: 12, width: 'min(92vw, 340px)' }}>

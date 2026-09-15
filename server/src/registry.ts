@@ -12,6 +12,10 @@ import { TabooGame } from './games/taboo.ts';
 import { IntesaVincenteGame } from './games/intesa-vincente.ts';
 import { MimoGame } from './games/mimo.ts';
 import { Top10Game } from './games/top10.ts';
+import { QuizLampoGame } from './games/quiz-lampo.ts';
+import { EmojiFilmGame } from './games/emoji-film.ts';
+import { IndizioSeccoGame } from './games/indizio-secco.ts';
+import { DisegnaGame } from './games/disegna.ts';
 
 /** Solo i giochi presenti qui entrano davvero in partita.
  *  Il flag `ready` nel catalogo condiviso deve restare allineato a questa mappa. */
@@ -29,4 +33,8 @@ export const registry: Registry = {
   'intesa-vincente': (ctx) => new IntesaVincenteGame(ctx),
   mimo: (ctx) => new MimoGame(ctx),
   top10: (ctx) => new Top10Game(ctx),
+  'quiz-lampo': (ctx) => new QuizLampoGame(ctx),
+  'emoji-film': (ctx) => new EmojiFilmGame(ctx),
+  'indizio-secco': (ctx) => new IndizioSeccoGame(ctx),
+  disegna: (ctx) => new DisegnaGame(ctx),
 };

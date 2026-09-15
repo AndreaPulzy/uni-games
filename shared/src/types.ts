@@ -25,7 +25,11 @@ export type GameId =
   | 'taboo'
   | 'intesa-vincente'
   | 'mimo'
-  | 'top10';
+  | 'top10'
+  | 'quiz-lampo'
+  | 'emoji-film'
+  | 'indizio-secco'
+  | 'disegna';
 
 export interface Player {
   id: PlayerId;
@@ -141,6 +145,8 @@ export interface ServerToClient {
   room: (s: RoomState) => void;
   private: (v: PrivateView) => void;
   toast: (t: { kind: 'info' | 'good' | 'bad'; text: string }) => void;
+  /** eventi rapidi del minigioco, per esempio i tratti del disegno in diretta */
+  'game:event': (e: { name: string; data: unknown }) => void;
   ended: (r: { reason: string }) => void;
 }
 

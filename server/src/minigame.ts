@@ -24,6 +24,9 @@ export interface GameContext {
   finish(result: GameResult): void;
   /** messaggio effimero: playerId null = tutti */
   toast(playerId: PlayerId | null, kind: 'info' | 'good' | 'bad', text: string): void;
+  /** evento rapido a tutti i dispositivi della stanza, senza rispedire lo stato
+   *  intero: serve ai flussi fitti come i tratti del disegno in diretta */
+  event(name: string, data: unknown): void;
   player(id: PlayerId): Player | undefined;
   teamOf(id: PlayerId): Team | null;
 }

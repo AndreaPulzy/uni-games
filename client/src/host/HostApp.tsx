@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { emit, socket, useRoom, useToasts } from '../net.ts';
+import { SoundButton, useSounds } from './Sounds.tsx';
 import { Lobby } from './Lobby.tsx';
 import { Intro } from './Intro.tsx';
 import { Recap } from './Recap.tsx';
@@ -46,6 +47,7 @@ function buildJoinUrl(code: string, lanHost: string, publicUrl: string | null): 
 export function HostApp() {
   const room = useRoom();
   const toasts = useToasts();
+  useSounds(room, toasts);
   const [netHost, setNetHost] = useState<string>('');
   const [publicUrl, setPublicUrl] = useState<string | null>(null);
 
@@ -92,6 +94,7 @@ export function HostApp() {
             {room.phase !== 'lobby' && (
               <span className="chip mono" title="Codice stanza">{room.code}</span>
             )}
+            <SoundButton />
             {room.directorId && (
               <span className="chip" style={{ borderColor: 'rgba(255,217,61,.55)', color: 'var(--gold)' }}>
                 🎬 {room.players.find((p) => p.id === room.directorId)?.name}

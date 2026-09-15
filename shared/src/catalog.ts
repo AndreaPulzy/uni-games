@@ -82,6 +82,37 @@ export const GAMES: GameDef[] = [
     ready: true,
   },
 
+  {
+    id: 'quiz-lampo',
+    title: 'Quiz lampo',
+    category: 'timed',
+    minPlayers: 2,
+    maxPlayers: 16,
+    tagline: 'Otto domande, pochi secondi',
+    rules: [
+      'Una domanda sulla TV, quattro risposte sul telefono.',
+      "Hai 15 secondi e una sola possibilità: non si cambia risposta.",
+      'Risposta giusta: 500 punti, fino a 1000 se sei velocissimo.',
+    ],
+    durationSec: 15,
+    ready: true,
+  },
+  {
+    id: 'emoji-film',
+    title: 'Indovina dalle emoji',
+    category: 'timed',
+    minPlayers: 2,
+    maxPlayers: 16,
+    tagline: 'Film e serie TV raccontati in emoji',
+    rules: [
+      "Sulla TV compare una fila di emoji: è un film o una serie TV.",
+      'Scrivi il titolo dal telefono: i piccoli errori di battitura non contano.',
+      "A metà tempo arriva l'iniziale di ogni parola. Più sei veloce, più punti prendi.",
+    ],
+    durationSec: 30,
+    ready: true,
+  },
+
   /* --------------------- DEDUZIONE & CREATIVITA ----------------------- */
   {
     id: 'impostore-parola',
@@ -159,6 +190,22 @@ export const GAMES: GameDef[] = [
     ready: true,
   },
 
+  {
+    id: 'disegna',
+    title: 'Disegna e indovina',
+    category: 'untimed',
+    minPlayers: 3,
+    maxPlayers: 8,
+    tagline: 'Un dito, un telefono, un capolavoro',
+    rules: [
+      'A turno uno disegna col dito la parola che sceglie sul telefono.',
+      'Il disegno appare in diretta sulla TV: gli altri scrivono cosa pensano che sia.',
+      "Chi indovina prima prende più punti, e chi disegna guadagna per ogni persona che ci arriva.",
+    ],
+    durationSec: 60,
+    ready: true,
+  },
+
   /* ----------------------------- A SQUADRE ----------------------------- */
   {
     id: 'taboo',
@@ -220,6 +267,22 @@ export const GAMES: GameDef[] = [
       'Si svela il tema della classifica ufficiale.',
       'Le squadre propongono un elemento alla volta, a turni alterni.',
       '1o posto = 10 punti, 10o posto = 1 punto. Fuori classifica = 0.',
+    ],
+    durationSec: null,
+    ready: true,
+  },
+  {
+    id: 'indizio-secco',
+    title: 'Indizio Secco',
+    category: 'team',
+    minPlayers: 4,
+    maxPlayers: 16,
+    minPerTeam: 2,
+    tagline: 'Una parola sola per farla indovinare',
+    rules: [
+      'Un giocatore per squadra vede la parola segreta e ne suggerisce una sola.',
+      "Se la squadra sbaglia tocca agli avversari, che sentono anche gli indizi già dati.",
+      'Meno indizi servono, più punti: 10 al primo, poi 8, 6, 5, 4, 3.',
     ],
     durationSec: null,
     ready: true,
