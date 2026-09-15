@@ -22,10 +22,8 @@ export function DirectorLobby({ room, me }: { room: RoomState; me: Player }) {
     if (!r?.ok) setError(r?.error ?? 'Qualcosa è andato storto');
   }
 
-  const toggle = (id: GameId) =>
-    send('host:settings', {
-      settings: { excluded: excluded.includes(id) ? excluded.filter((x) => x !== id) : [...excluded, id] },
-    });
+  // il server accende o spegne il singolo gioco: tocchi rapidi non si sovrascrivono
+  const toggle = (id: GameId) => send('host:settings', { settings: { toggle: id } });
 
   return (
     <div className="director-lobby">

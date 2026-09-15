@@ -68,6 +68,18 @@ check('il regista sceglie giochi e round dal telefono',
 r = await ask(A.s, 'host:settings', { settings: { totalRounds: 99 } });
 check('impostazioni non valide rifiutate', r.ok === false && room.settings.totalRounds === 2, r.error);
 
+// tocchi rapidi: dieci giochi accesi in raffica non devono perdersi per strada
+const burst = ['connections', 'nerdle', 'ghost', 'impostore-parola', 'impostore-numeri',
+  'nomi-cose-citta', 'risposta-bastarda', 'fabbrica-meme', 'taboo', 'mimo'];
+await Promise.all(burst.map((id) => ask(A.s, 'host:settings', { settings: { toggle: id } })));
+await sleep(300);
+check('tocchi rapidi sui giochi: nessuno va perso',
+  burst.every((id) => !room.settings.excluded.includes(id)) && room.settings.excluded.length === 2,
+  `esclusi: ${room.settings.excluded.join(', ')}`);
+await Promise.all(burst.map((id) => ask(A.s, 'host:settings', { settings: { toggle: id } })));
+await sleep(300);
+check('e rispegnendoli tornano esattamente come prima', room.settings.excluded.length === excluded.length);
+
 r = await ask(B.s, 'host:start', {});
 check('un giocatore qualsiasi non avvia la partita', r.ok === false && room.phase === 'lobby');
 

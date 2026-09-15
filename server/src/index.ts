@@ -4,7 +4,7 @@ import cors from '@fastify/cors';
 import { Server as IOServer } from 'socket.io';
 import { fileURLToPath } from 'node:url';
 import { existsSync } from 'node:fs';
-import type { PlayerId, RoomCode, RoomSettings } from '../../shared/src/types.ts';
+import type { PlayerId, RoomCode, RoomSettings, SettingsUpdate } from '../../shared/src/types.ts';
 import { Room } from './room.ts';
 import { registry } from './registry.ts';
 import { lanAddress } from './net.ts';
@@ -172,7 +172,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('host:settings', (...args: unknown[]) => {
-    const { payload, cb } = splitArgs<{ settings?: Partial<RoomSettings> }>(args);
+    const { payload, cb } = splitArgs<{ settings?: SettingsUpdate }>(args);
     const room = directedRoom(data);
     if (!room) return cb?.(NOT_DIRECTOR);
     cb?.(room.updateSettings(payload?.settings));

@@ -1,5 +1,5 @@
 import type {
-  Player, PlayerId, RoomCode, RoomState, RoomSettings, RoomPhase,
+  Player, PlayerId, RoomCode, RoomState, RoomSettings, RoomPhase, SettingsUpdate,
   Team, GameId, RoundRecap, RecapRow,
 } from '../../shared/src/types.ts';
 import { gameDef, GAME_BY_ID, MAX_PLAYERS } from '../../shared/src/catalog.ts';
@@ -148,7 +148,7 @@ export class Room {
   }
 
   /** Impostazioni della lobby: le cambia la TV o il regista, le vedono tutti. */
-  updateSettings(s: Partial<RoomSettings> | undefined): Result {
+  updateSettings(s: SettingsUpdate | undefined): Result {
     if (this.phase !== 'lobby') return { ok: false, error: 'La partita è già iniziata' };
     if (!s) return { ok: true };
     if (s.totalRounds !== undefined) {
@@ -160,6 +160,13 @@ export class Room {
       if (!Array.isArray(s.excluded)) return { ok: false, error: 'Elenco giochi non valido' };
       const excluded = [...new Set(s.excluded.filter((id) => GAME_BY_ID.has(id)))];
       this.settings = { ...this.settings, excluded };
+    }
+    if (s.toggle !== undefined) {
+      if (!GAME_BY_ID.has(s.toggle)) return { ok: false, error: 'Gioco sconosciuto' };
+      const excluded = new Set(this.settings.excluded);
+      if (excluded.has(s.toggle)) excluded.delete(s.toggle);
+      else excluded.add(s.toggle);
+      this.settings = { ...this.settings, excluded: [...excluded] };
     }
     return { ok: true };
   }

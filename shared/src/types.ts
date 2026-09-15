@@ -85,6 +85,11 @@ export interface RoomSettings {
   excluded: GameId[];
 }
 
+/** Modifica delle impostazioni. `toggle` accende o spegne un solo gioco in modo
+ *  atomico sul server: mandando l'elenco completo, tocchi rapidi in sequenza si
+ *  sovrascriverebbero a vicenda. */
+export type SettingsUpdate = Partial<RoomSettings> & { toggle?: GameId };
+
 export interface RoundRecap {
   gameId: GameId;
   category: Category;
@@ -120,7 +125,7 @@ export interface ClientToServer {
   'host:next': (p: { expect?: string }, cb: (r: Ack) => void) => void;
   'host:kick': (p: { playerId: PlayerId }, cb: (r: Ack) => void) => void;
   /** i comandi host:* li puo' dare la TV oppure il telefono del regista */
-  'host:settings': (p: { settings: Partial<RoomSettings> }, cb: (r: Ack) => void) => void;
+  'host:settings': (p: { settings: SettingsUpdate }, cb: (r: Ack) => void) => void;
   'host:restart': (cb: (r: Ack) => void) => void;
   'director:transfer': (p: { playerId: PlayerId }, cb: (r: Ack) => void) => void;
 
