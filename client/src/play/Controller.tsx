@@ -129,7 +129,9 @@ export function Controller({ room, me }: { room: RoomState; me: Player }) {
 
       {room.phase === 'playing' && room.deadline !== null && (
         <div className="row" style={{ justifyContent: 'center' }}>
-          <span className={`mono${left <= 10_000 ? ' timer-low' : ''}`} style={{ fontSize: '1.3rem', fontWeight: 700 }}>
+          {/* un elemento nuovo a ogni secondo: Safari, quando parte l'animazione
+              del timer rosso, lasciava disegnato sotto il numero precedente */}
+          <span key={fmtTime(left)} className={`phone-timer mono${left <= 10_000 ? ' timer-low' : ''}`}>
             {fmtTime(left)}
           </span>
         </div>

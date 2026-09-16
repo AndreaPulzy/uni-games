@@ -4,6 +4,34 @@ import type { RoomState } from '@shared/types.ts';
 
 export const socket: Socket = io({ autoConnect: true, transports: ['websocket', 'polling'] });
 
+/** Telefoni e smart TV sospendono la pagina quando si passa a un'altra app: al
+ *  ritorno la connessione può sembrare aperta ma essere già chiusa. Si controlla
+ *  con un ping e, se non risponde, si riapre; al 'connect' TV e telefoni
+ *  rientrano da soli nella stanza. */
+function checkConnection() {
+  if (document.visibilityState === 'hidden') return;
+  if (!socket.connected) { socket.connect(); return; }
+  socket.timeout(2500).emit('alive', (err: Error | null) => {
+    if (err) { socket.disconnect(); socket.connect(); }
+  });
+}
+document.addEventListener('visibilitychange', checkConnection);
+window.addEventListener('pageshow', checkConnection);
+window.addEventListener('online', checkConnection);
+
+/** Stato della connessione, per avvisare quando ci si sta ricollegando. */
+export function useConnected(): boolean {
+  const [on, setOn] = useState(socket.connected);
+  useEffect(() => {
+    const up = () => setOn(true);
+    const down = () => setOn(false);
+    socket.on('connect', up);
+    socket.on('disconnect', down);
+    return () => { socket.off('connect', up); socket.off('disconnect', down); };
+  }, []);
+  return on;
+}
+
 export function emit<T = unknown>(event: string, payload?: unknown): Promise<T> {
   return new Promise((resolve) => {
     if (payload === undefined) socket.emit(event, resolve);

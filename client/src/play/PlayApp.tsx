@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { socket, useRoom, useToasts, emit } from '../net.ts';
+import { socket, useConnected, useRoom, useToasts, emit } from '../net.ts';
 import { Join } from './Join.tsx';
 import { Controller } from './Controller.tsx';
 
 const TOKEN_KEY = 'uni:token';
 const NAME_KEY = 'uni:name';
+const CODE_KEY = 'uni:code';
 
 export function PlayApp() {
   const room = useRoom();
   const toasts = useToasts();
+  const online = useConnected();
   const [playerId, setPlayerId] = useState<string | null>(null);
   const [joining, setJoining] = useState(true);
 
@@ -18,19 +20,26 @@ export function PlayApp() {
     return m ? m[1].toUpperCase() : '';
   })();
 
-  /** Riprova il rientro automatico con il token salvato. */
+  /** Rientro automatico col token salvato, all'avvio e a ogni riconnessione.
+   *  Codice, nome e token si leggono al momento del rientro e non all'apertura
+   *  della pagina: chi è entrato dal modulo deve poter rientrare lo stesso. */
   useEffect(() => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    const name = localStorage.getItem(NAME_KEY);
-    const code = codeFromUrl || sessionStorage.getItem('uni:code') || '';
-
     async function rejoin() {
+      const token = localStorage.getItem(TOKEN_KEY);
+      const name = localStorage.getItem(NAME_KEY);
+      const code = codeFromUrl || localStorage.getItem(CODE_KEY) || '';
       if (!token || !name || !code) { setJoining(false); return; }
-      const r = await emit<{ ok: boolean; playerId?: string; token?: string }>('player:join', { code, name, token });
-      if (r.ok && r.playerId) setPlayerId(r.playerId);
+      const r = await emit<{ ok: boolean; playerId?: string; error?: string }>('player:join', { code, name, token });
+      if (r.ok && r.playerId) {
+        setPlayerId(r.playerId);
+      } else {
+        // stanza chiusa o partita a cui non si partecipava: si torna al modulo
+        if (r.error === 'Codice stanza non valido') localStorage.removeItem(CODE_KEY);
+        setPlayerId(null);
+      }
       setJoining(false);
     }
-    rejoin();
+    if (socket.connected) rejoin();
     socket.on('connect', rejoin);
     return () => { socket.off('connect', rejoin); };
   }, [codeFromUrl]);
@@ -41,18 +50,20 @@ export function PlayApp() {
     <div className="stage">
       {!playerId || !room || !me ? (
         <Join
-          initialCode={codeFromUrl}
+          initialCode={codeFromUrl || localStorage.getItem(CODE_KEY) || ''}
           busy={joining}
           onJoined={(id, token, name, code) => {
             localStorage.setItem(TOKEN_KEY, token);
             localStorage.setItem(NAME_KEY, name);
-            sessionStorage.setItem('uni:code', code);
+            localStorage.setItem(CODE_KEY, code);
             setPlayerId(id);
           }}
         />
       ) : (
         <Controller room={room} me={me} />
       )}
+
+      {playerId && !online && <div className="conn-banner">Connessione persa, mi ricollego…</div>}
 
       <div className="toast-host">
         <AnimatePresence>

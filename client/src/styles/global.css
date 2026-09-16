@@ -141,7 +141,11 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -0.02em; line-height: 
   transition: transform .12s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
   touch-action: manipulation;
 }
-.btn:hover:not(:disabled) { border-color: var(--stroke-hot); background: rgba(255,255,255,.12); }
+/* hover solo dove c'è davvero un mouse: sul telefono lo stato resta attaccato dopo
+   il tocco, e sui pulsanti colorati cancellava lo sfondo ("Indovinata!" spento) */
+@media (hover: hover) {
+  .btn:not(.btn-primary):not(.btn-hot):hover:not(:disabled) { border-color: var(--stroke-hot); background: rgba(255,255,255,.12); }
+}
 .btn:active:not(:disabled) { transform: scale(.96); }
 .btn:disabled { opacity: .38; cursor: not-allowed; }
 
@@ -153,7 +157,9 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -0.02em; line-height: 
   font-weight: 900;
   letter-spacing: .01em;
 }
-.btn-primary:hover:not(:disabled) { box-shadow: 0 0 36px rgba(0,229,255,.7); }
+@media (hover: hover) {
+  .btn-primary:hover:not(:disabled) { box-shadow: 0 0 36px rgba(0,229,255,.7); }
+}
 
 .btn-hot {
   background: linear-gradient(100deg, var(--magenta), #ff7a29);

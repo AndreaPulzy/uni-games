@@ -23,6 +23,24 @@
 
 .phone-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; }
 
+.phone-timer { display: inline-block; min-width: 3ch; text-align: center; font-size: 1.3rem; font-weight: 700; }
+
+.conn-banner {
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-weight: 800;
+  font-size: .85rem;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px rgba(0,0,0,.4);
+}
+
 .phone-hero {
   flex: 1;
   display: flex;
@@ -378,6 +396,9 @@
   color: var(--gold);
 }
 .director-lobby { display: flex; flex-direction: column; gap: 14px; min-height: 0; overflow-y: auto; padding-bottom: 8px; }
+/* nella colonna che scorre nessun blocco deve schiacciarsi: il pannello dei giochi
+   si stringeva e le sue righe finivano sopra "Passa la regia" */
+.director-lobby > * { flex-shrink: 0; }
 .director-card {
   padding: 16px;
   border-radius: var(--r-md);

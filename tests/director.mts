@@ -9,6 +9,8 @@ import { decide } from './bot-brain.mts';
 
 const BASE = process.env.BASE ?? 'http://localhost:3000';
 const GRACE = Number(process.env.DIRECTOR_GRACE_MS ?? 20_000);
+// prima di contare come offline un telefono ha la sua tolleranza
+const PLAYER_GRACE = Number(process.env.PLAYER_GRACE_MS ?? 30_000);
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const conn = (): Promise<Socket> =>
   new Promise((res) => { const s = io(BASE, { transports: ['websocket'] }); s.on('connect', () => res(s)); });
@@ -161,7 +163,7 @@ players[1] = B2;
 B2.s.disconnect();
 await sleep(1500);
 check('durante la tolleranza la regia non cambia', room.directorId === B.id);
-await waitFor('regia passata di mano', () => room.directorId !== B.id, GRACE + 10_000);
+await waitFor('regia passata di mano', () => room.directorId !== B.id, PLAYER_GRACE + GRACE + 10_000);
 check('se il regista resta offline, la regia passa al primo collegato', room.directorId === A.id, nameOf(room.directorId));
 
 const B3 = await joinAs('Giulia', B.token);

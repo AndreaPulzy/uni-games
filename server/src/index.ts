@@ -123,8 +123,16 @@ function createRoom(): Room {
 
 /* -------------------------------- socket -------------------------------- */
 
+/** connessione attuale di ogni giocatore ("CODICE:playerId" -> socket): quando un
+ *  telefono torna in primo piano apre una connessione nuova, e la vecchia che il
+ *  server chiude in ritardo non deve farlo risultare uscito */
+const playerSockets = new Map<string, string>();
+
 io.on('connection', (socket) => {
   const data = socket.data as SocketData;
+
+  // controllo rapido dal client al ritorno in primo piano
+  socket.on('alive', (cb) => { if (typeof cb === 'function') cb({ ok: true }); });
 
   socket.on('host:create', (cb) => {
     const room = createRoom();
@@ -159,6 +167,7 @@ io.on('connection', (socket) => {
 
     data.code = code;
     data.playerId = res.player.id;
+    playerSockets.set(`${code}:${res.player.id}`, socket.id);
     socket.join(`room:${code}`);
     cb?.({ ok: true, playerId: res.player.id, token });
     broadcast(code);
@@ -221,11 +230,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    if (data.code && data.playerId) {
-      const room = rooms.get(data.code);
-      room?.setConnected(data.playerId, false);
-      if (room) broadcast(room.code);
-    }
+    if (!data.code || !data.playerId) return;
+    const key = `${data.code}:${data.playerId}`;
+    if (playerSockets.get(key) !== socket.id) return;   // il giocatore è già rientrato da un'altra connessione
+    playerSockets.delete(key);
+    // non esce subito: ha la tolleranza per rientrare (vedi Room.playerLost)
+    rooms.get(data.code)?.playerLost(data.playerId);
   });
 });
 

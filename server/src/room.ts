@@ -15,6 +15,9 @@ const INTRO_MS = 9000;
 /** Un telefono che si blocca perde la connessione per qualche secondo: la regia
  *  passa di mano solo se il regista resta offline piu' a lungo di cosi'. */
 const DIRECTOR_GRACE_MS = Number(process.env.DIRECTOR_GRACE_MS ?? 20_000);
+/** quanto resta "in partita" un telefono che ha perso la connessione (app in
+ *  background, schermo spento, rete che salta) prima di risultare offline */
+const PLAYER_GRACE_MS = Number(process.env.PLAYER_GRACE_MS ?? 30_000);
 
 type Result = { ok: true } | { ok: false; error: string };
 
@@ -50,6 +53,8 @@ export class Room {
   /** il telefono che comanda la partita: il primo arrivato, finche' non passa la mano */
   directorId: PlayerId | null = null;
   private directorTimer: NodeJS.Timeout | null = null;
+  /** giocatori senza connessione ma ancora dentro, in attesa che rientrino */
+  private awayTimers = new Map<PlayerId, NodeJS.Timeout>();
 
   private game: MiniGame | null = null;
   private _deadline: number | null = null;
@@ -69,6 +74,7 @@ export class Room {
     if (existingId) {
       const p = this.players.find((x) => x.id === existingId);
       if (p) {
+        this.clearAway(p.id);
         p.connected = true;
         p.name = clean;
         if (p.id === this.directorId) this.clearDirectorTimer();
@@ -107,7 +113,24 @@ export class Room {
     if (!connected && this.phase === 'playing') this.game?.onDisconnect(playerId);
   }
 
+  /** La connessione del giocatore è caduta: resta in partita per un po', così chi
+   *  risponde a un messaggio o spegne lo schermo ritrova il suo posto. */
+  playerLost(playerId: PlayerId) {
+    this.clearAway(playerId);
+    this.awayTimers.set(playerId, setTimeout(() => {
+      this.awayTimers.delete(playerId);
+      this.setConnected(playerId, false);
+      this.deps.broadcast(this.code);
+    }, PLAYER_GRACE_MS));
+  }
+
+  private clearAway(playerId: PlayerId) {
+    const t = this.awayTimers.get(playerId);
+    if (t) { clearTimeout(t); this.awayTimers.delete(playerId); }
+  }
+
   kick(playerId: PlayerId) {
+    this.clearAway(playerId);
     this.players = this.players.filter((p) => p.id !== playerId);
     for (const [t, id] of this.tokens) if (id === playerId) this.tokens.delete(t);
     if (this.directorId === playerId) { this.clearDirectorTimer(); this.directorId = null; }
@@ -371,7 +394,12 @@ export class Room {
     }
   }
 
-  dispose() { this.stopLoop(); this.clearDirectorTimer(); }
+  dispose() {
+    this.stopLoop();
+    this.clearDirectorTimer();
+    for (const t of this.awayTimers.values()) clearTimeout(t);
+    this.awayTimers.clear();
+  }
 
   /* ------------------------------- contesto ------------------------------- */
 
